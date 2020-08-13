@@ -1,7 +1,7 @@
-package github.aloofcoder.generate.util;
+package github.aloofcoder.falsework.generate.util;
 
-import github.aloofcoder.generate.pojo.entity.ColumnEntity;
-import github.aloofcoder.generate.pojo.entity.TableEntity;
+import github.aloofcoder.falsework.generate.pojo.entity.ColumnEntity;
+import github.aloofcoder.falsework.generate.pojo.entity.TableEntity;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
@@ -102,6 +102,7 @@ public class CodeGenerateUtils {
         //封装模板数据
         Map<String, Object> map = new HashMap<>();
         map.put("tableName", tableEntity.getTableName());
+
         map.put("comments", tableEntity.getComments());
         map.put("pkName", tableEntity.getPk().getColumnName());
         map.put("pk", tableEntity.getPk());

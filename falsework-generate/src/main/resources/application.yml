@@ -28,4 +28,4 @@ mybatis-plus:
 
 logging:
   level:
-    github.aloofcoder.generate.dao: debug
+    github.aloofcoder.falsework.generate.dao: debug

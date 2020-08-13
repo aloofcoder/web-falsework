@@ -1,6 +1,6 @@
-package github.aloofcoder.generate.dao;
+package github.aloofcoder.falsework.generate.dao;
 
-import github.aloofcoder.generate.pojo.dto.TablePageDTO;
+import github.aloofcoder.falsework.generate.pojo.dto.TablePageDTO;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package github.aloofcoder.generate;
+package github.aloofcoder.falsework.generate;
 
 import org.springframework.boot.test.context.SpringBootTest;
 

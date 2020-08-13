@@ -1,7 +1,7 @@
 package ${package}.${moduleName}.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import ${package}.${moduleName}.util.PageResult;
+import ${mainPath}.util.PageResult;
 import ${package}.${moduleName}.pojo.entity.${className}Entity;
 import ${package}.${moduleName}.pojo.vo.${className}DetailVO;
 import ${package}.${moduleName}.pojo.dto.${className}PageDTO;

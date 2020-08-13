@@ -1,10 +1,10 @@
-package github.aloofcoder.generate.controller;
+package github.aloofcoder.falsework.generate.controller;
 
-import github.aloofcoder.generate.pojo.dto.GenerateCodeDTO;
-import github.aloofcoder.generate.pojo.dto.TablePageDTO;
-import github.aloofcoder.generate.service.ICodeGenerateService;
-import github.aloofcoder.generate.util.PageResult;
-import github.aloofcoder.generate.util.R;
+import github.aloofcoder.falsework.generate.pojo.dto.GenerateCodeDTO;
+import github.aloofcoder.falsework.generate.pojo.dto.TablePageDTO;
+import github.aloofcoder.falsework.generate.service.ICodeGenerateService;
+import github.aloofcoder.falsework.generate.util.PageResult;
+import github.aloofcoder.falsework.generate.util.R;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;

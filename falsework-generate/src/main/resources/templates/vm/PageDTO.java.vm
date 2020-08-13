@@ -2,6 +2,7 @@ package ${package}.${moduleName}.pojo.dto;
 
 import lombok.Data;
 import org.springdoc.api.annotations.ParameterObject;
+import ${mainPath}.pojo.dto.PageDTO;
 
 /**
  * ${comments}

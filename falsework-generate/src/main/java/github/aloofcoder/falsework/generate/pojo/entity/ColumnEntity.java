@@ -1,4 +1,4 @@
-package github.aloofcoder.generate.pojo.entity;
+package github.aloofcoder.falsework.generate.pojo.entity;
 
 /**
  * 列的属性

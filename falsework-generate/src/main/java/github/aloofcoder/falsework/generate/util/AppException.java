@@ -1,4 +1,4 @@
-package github.aloofcoder.generate.util;
+package github.aloofcoder.falsework.generate.util;
 
 /**
  * @author hanle

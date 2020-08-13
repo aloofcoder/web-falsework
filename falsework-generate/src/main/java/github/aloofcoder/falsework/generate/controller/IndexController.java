@@ -1,4 +1,4 @@
-package github.aloofcoder.generate.controller;
+package github.aloofcoder.falsework.generate.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

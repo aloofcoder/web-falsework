@@ -22,5 +22,6 @@
     <modules>
         <module>falsework-common</module>
         <module>falsework-generate</module>
+        <module>falsework-admin</module>
     </modules>
 </project>

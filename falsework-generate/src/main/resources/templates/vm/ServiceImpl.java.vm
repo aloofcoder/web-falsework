@@ -10,7 +10,7 @@ import ${package}.${moduleName}.pojo.dto.${className}PageDTO;
 import ${package}.${moduleName}.pojo.dto.${className}DTO;
 import ${package}.${moduleName}.pojo.entity.${className}Entity;
 import ${package}.${moduleName}.service.I${className}Service;
-import ${package}.${moduleName}.util.PageResult;
+import ${mainPath}.util.PageResult;
 import ${package}.${moduleName}.pojo.vo.${className}DetailVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;

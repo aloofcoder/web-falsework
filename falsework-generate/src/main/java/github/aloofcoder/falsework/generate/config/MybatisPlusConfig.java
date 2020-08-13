@@ -1,4 +1,4 @@
-package github.aloofcoder.generate.config;
+package github.aloofcoder.falsework.generate.config;
 
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.pagination.optimize.JsqlParserCountOptimize;
@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@MapperScan("github.aloofcoder.generate.dao")
+@MapperScan("github.aloofcoder.falsework.generate.dao")
 public class MybatisPlusConfig {
 
     @Bean

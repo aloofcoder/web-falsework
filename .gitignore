@@ -22,3 +22,5 @@ buildNumber.properties
 **/*.iml
 
 *.iml
+
+/falsework-admin

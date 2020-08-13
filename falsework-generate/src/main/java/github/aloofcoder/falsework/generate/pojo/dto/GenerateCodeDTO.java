@@ -1,4 +1,4 @@
-package github.aloofcoder.generate.pojo.dto;
+package github.aloofcoder.falsework.generate.pojo.dto;
 
 import lombok.Data;
 
