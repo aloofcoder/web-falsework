@@ -1,0 +1,17 @@
+package ${package}.${moduleName}.dao;
+
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.stereotype.Repository;
+import ${package}.${moduleName}.pojo.entity.${className}Entity;
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @email ${email}
+ * @date ${datetime}
+ */
+@Repository
+public interface ${className}Dao extends BaseMapper<${className}Entity> {
+
+}

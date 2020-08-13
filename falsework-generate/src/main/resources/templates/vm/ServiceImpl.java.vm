@@ -1,0 +1,77 @@
+package ${package}.${moduleName}.service.impl;
+
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import ${package}.${moduleName}.dao.${className}Dao;
+import ${package}.${moduleName}.pojo.dto.${className}PageDTO;
+import ${package}.${moduleName}.pojo.dto.${className}DTO;
+import ${package}.${moduleName}.pojo.entity.${className}Entity;
+import ${package}.${moduleName}.service.I${className}Service;
+import ${package}.${moduleName}.util.PageResult;
+import ${package}.${moduleName}.pojo.vo.${className}DetailVO;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Arrays;
+import java.util.Objects;
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @email ${email}
+ * @date ${datetime}
+ */
+@Service
+public class ${className}ServiceImpl extends ServiceImpl<${className}Dao, ${className}Entity> implements I${className}Service {
+
+    @Autowired
+    private ${className}Dao ${classname}Dao;
+
+    @Override
+    public PageResult query${className}Page(${className}PageDTO pageDTO) {
+        IPage<${className}Entity> page = this.page(
+                new Page<>(pageDTO.getPage(), pageDTO.getLimit()),
+                new QueryWrapper<${className}Entity>());
+        return new PageResult(page);
+    }
+
+    @Override
+    public ${className}DetailVO find${className}Detail(${pk.attrType} ${pk.attrname}) {
+        ${className}Entity entity = this.getOne(new QueryWrapper<${className}Entity>().eq("${pk.columnName}", ${pk.attrname}));
+        if (Objects.isNull(entity)) {
+            return null;
+        }
+        ${className}DetailVO vo = new ${className}DetailVO();
+        BeanUtils.copyProperties(entity, vo);
+        return vo;
+    }
+
+
+    @Override
+    public void create${className}(${className}DTO ${classname}DTO) {
+        ${className}Entity entity = new ${className}Entity();
+        BeanUtils.copyProperties(${classname}DTO, entity);
+        this.save(entity);
+    }
+
+    @Override
+    public void update${className}(${pk.attrType} ${pk.attrname}, ${className}DTO ${classname}DTO) {
+        ${className}Entity entity = this.getOne(new QueryWrapper<${className}Entity>().eq("${pk.columnName}", ${pk.attrname}));
+        if (Objects.isNull(entity)) {
+            throw new IllegalArgumentException();
+        }
+        BeanUtils.copyProperties(${classname}DTO, entity);
+        update(entity, new UpdateWrapper<${className}Entity>().eq("${pk.columnName}", ${pk.attrname}));
+    }
+
+    @Override
+    public void delete${className}s(${pk.attrType}[] ${pk.attrname}s) {
+        this.removeByIds(Arrays.asList(${pk.attrname}s));
+    }
+}

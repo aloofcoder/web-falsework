@@ -1,0 +1,32 @@
+package ${package}.${moduleName}.pojo.vo;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+#if($hasBigDecimal)
+import java.math.BigDecimal;
+#end
+#if($hasDate)
+import java.util.Date;
+#end
+#if($hasList)
+import java.util.List;
+#end
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @email ${email}
+ * @date ${datetime}
+ */
+@Data
+@Schema(name = "${className}DetailVO", description = "查询${comments}详情返回参数")
+public class ${className}DetailVO {
+#foreach ($column in $columns)
+
+    #if($column.columnName != $pk.columnName && $column.columnName != "createTime" && $column.columnName != "editTime" && $column.columnName != "createBy"  && $column.columnName != "editBy")
+    @Schema(name = "${column.attrname}", description = "${column.comments}", type = "${column.attrType}")
+    private $column.attrType $column.attrname;
+    #end
+#end
+}

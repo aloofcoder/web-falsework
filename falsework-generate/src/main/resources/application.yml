@@ -1,0 +1,31 @@
+server:
+  port: 80
+
+# mysql
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    #MySQL配置
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://39.106.42.84:3306/system_manage?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+  resources:
+    static-locations: classpath:/static/,classpath:/views/
+  thymeleaf:
+    cache: false
+    prefix: classpath:/templates/views/
+  application:
+    name: bakn-generate
+
+mybatis-plus:
+  mapperLocations: classpath:mapper/**/*.xml
+  global-config:
+    banner: false
+
+logging:
+  level:
+    github.aloofcoder.generate.dao: debug

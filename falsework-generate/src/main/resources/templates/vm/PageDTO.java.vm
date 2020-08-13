@@ -1,0 +1,17 @@
+package ${package}.${moduleName}.pojo.dto;
+
+import lombok.Data;
+import org.springdoc.api.annotations.ParameterObject;
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @email ${email}
+ * @date ${datetime}
+ */
+@Data
+@ParameterObject
+public class ${className}PageDTO extends PageDTO {
+
+}

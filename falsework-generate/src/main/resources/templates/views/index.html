@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>代码生成</title>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <script type="text/javascript" src="../layui/layui.js"></script>
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">通用代码生成</div>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+<!--        <ul class="layui-nav layui-layout-right">-->
+<!--            <li class="layui-nav-item">-->
+<!--                <a href="javascript:;">-->
+<!--                    <img src="http://t.cn/RCzsdCq" class="layui-nav-img">-->
+<!--                    贤心-->
+<!--                </a>-->
+<!--                <dl class="layui-nav-child">-->
+<!--                    <dd><a href="">基本资料</a></dd>-->
+<!--                    <dd><a href="">安全设置</a></dd>-->
+<!--                </dl>-->
+<!--            </li>-->
+<!--            <li class="layui-nav-item"><a href="">退了</a></li>-->
+<!--        </ul>-->
+    </div>
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <div class="layui-col-md12">
+                <div class="layui-card layui-form">
+                    <div class="layui-card-header">查询条件</div>
+                    <div class="layui-card-body layui-row layui-col-space15">
+                        <div class="layui-col-md2">
+                            <input type="text" class="layui-input" id="tableName" placeholder="表名" />
+                        </div>
+                        <div class="layui-col-md2">
+                            <button class="layui-btn" data-type="reload">查询</button>
+                            <button class="layui-btn" data-type="build">生成</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md12">
+                <div class="layui-card layui-form">
+                    <div class="layui-card-header">查询结果</div>
+                    <div class="layui-card-body">
+                        <table class="layui-hide" id="layListId" lay-filter="layList" lay-data="{skin:'line', even:true, size:'sm'}"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['table', 'jquery'], function() {
+        var $ = layui.jquery;
+        var table = layui.table;
+        table.render({
+            elem: '#layListId',
+            id: 'layTableId',
+            url: '/sys/generate/page',
+            title: '维修保养报',
+            cellMinWidth: 100,
+            cols: [
+                [{
+                    type: 'checkbox',
+                    fixed: 'left'
+                }, {
+                    field: 'tableName',
+                    title: '表名',
+                    fixed: 'left'
+                }, {
+                    field: 'engine',
+                    title: '存储引擎',
+                    fixed: 'left'
+                }, {
+                    field: 'tableComment',
+                    title: '备注',
+                    fixed: 'left'
+                }, {
+                    field: 'createTime',
+                    title: '创建时间',
+                    minWidth: '120'
+                }]
+            ],
+            page: true
+            ,parseData: function(res){ //res 即为原始返回的数据
+                return {
+                    "code": res.code, //解析接口状态
+                    "msg": 'OK', //解析提示文本
+                    "count": res.data.totalCount, //解析数据长度
+                    "data": res.data.list //解析数据列表
+                };
+            }
+        });
+
+        var $ = layui.$,
+            active = {
+                reload: function() {
+                    var tableName = $("#tableName").val();
+
+                    //执行重载
+                    table.reload('layTableId', {
+                        where: {
+                            tableName: tableName
+                        }
+                    });
+                },
+                build: function() { //获取选中数据
+                    var checkStatus = table.checkStatus('layTableId'),
+                        data = checkStatus.data;
+                    if (data.length <= 0) {
+                        layer.msg("请选择您要生成的表");
+                        return
+                    }
+                    console.log(data, 'data')
+                    var tableNames = data.map(item => item.tableName).join(',');
+                    location.href = "sys/generate/build?tables="+ tableNames;
+                }
+            };
+        $('.layui-btn').on('click', function() {
+            var type = $(this).data('type');
+            active[type] && active[type].call(this);
+        });
+
+    });
+</script>
+</body>
+</html>

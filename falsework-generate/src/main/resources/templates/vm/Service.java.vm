@@ -1,0 +1,53 @@
+package ${package}.${moduleName}.service;
+
+import com.baomidou.mybatisplus.extension.service.IService;
+import ${package}.${moduleName}.util.PageResult;
+import ${package}.${moduleName}.pojo.entity.${className}Entity;
+import ${package}.${moduleName}.pojo.vo.${className}DetailVO;
+import ${package}.${moduleName}.pojo.dto.${className}PageDTO;
+import ${package}.${moduleName}.pojo.dto.${className}DTO;
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @email ${email}
+ * @date ${datetime}
+ */
+public interface I${className}Service extends IService<${className}Entity> {
+
+    /**
+    * 分页查询${comments}列表
+    * @param pageDTO
+    * @return
+    */
+    PageResult query${className}Page(${className}PageDTO pageDTO);
+
+    /**
+    * 查询${comments}详情
+    * @param ${pk.attrname}
+    * @return
+    */
+    ${className}DetailVO find${className}Detail(${pk.attrType} ${pk.attrname});
+
+    /**
+     * 创建${comments}
+     * @param ${classname}DTO
+     *
+     */
+    void create${className}(${className}DTO ${classname}DTO);
+
+    /**
+     * 修改${comments}
+     * @param ${pk.attrname}
+     * @param ${classname}DTO
+     */
+    void update${className}(${pk.attrType} ${pk.attrname}, ${className}DTO ${classname}DTO);
+
+    /**
+    * 批量删除${comments}
+    * @param ${pk.attrname}s
+    *
+    */
+    void delete${className}s(${pk.attrType}[] ${pk.attrname}s);
+}
