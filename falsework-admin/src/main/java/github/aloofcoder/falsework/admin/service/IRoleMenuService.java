@@ -1,0 +1,53 @@
+package github.aloofcoder.falsework.admin.service;
+
+import com.baomidou.mybatisplus.extension.service.IService;
+import github.aloofcoder.falsework.common.util.PageResult;
+import github.aloofcoder.falsework.admin.pojo.entity.RoleMenuEntity;
+import github.aloofcoder.falsework.admin.pojo.vo.RoleMenuDetailVO;
+import github.aloofcoder.falsework.admin.pojo.dto.RoleMenuPageDTO;
+import github.aloofcoder.falsework.admin.pojo.dto.RoleMenuDTO;
+
+/**
+ * 
+ *
+ * @author hanle
+ * @email hanl1946@163.com
+ * @date 2020-08-14 01:30:54
+ */
+public interface IRoleMenuService extends IService<RoleMenuEntity> {
+
+    /**
+    * 分页查询列表
+    * @param pageDTO
+    * @return
+    */
+    PageResult queryRoleMenuPage(RoleMenuPageDTO pageDTO);
+
+    /**
+    * 查询详情
+    * @param id
+    * @return
+    */
+    RoleMenuDetailVO findRoleMenuDetail(Integer id);
+
+    /**
+     * 创建
+     * @param roleMenuDTO
+     *
+     */
+    void createRoleMenu(RoleMenuDTO roleMenuDTO);
+
+    /**
+     * 修改
+     * @param id
+     * @param roleMenuDTO
+     */
+    void updateRoleMenu(Integer id, RoleMenuDTO roleMenuDTO);
+
+    /**
+    * 批量删除
+    * @param ids
+    *
+    */
+    void deleteRoleMenus(Integer[] ids);
+}

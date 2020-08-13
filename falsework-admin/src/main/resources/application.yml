@@ -1,0 +1,25 @@
+server:
+  port: 7000
+
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    #MySQL\u914D\u7F6E
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://39.106.42.84:3306/system_manage?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+  application:
+    name: falsework-admin
+
+mybatis-plus:
+  mapperLocations: classpath:mapper/**/*.xml
+  global-config:
+    banner: false
+
+logging:
+  level:
+    github.aloofcoder.falsework.admin.dao: debug

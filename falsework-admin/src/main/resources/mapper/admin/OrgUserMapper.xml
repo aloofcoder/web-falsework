@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="github.aloofcoder.falsework.admin.dao.OrgUserDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="github.aloofcoder.falsework.admin.pojo.entity.OrgUserEntity">
+            <result property="id" column="id"/>
+            <result property="orgId" column="org_id"/>
+            <result property="userNum" column="user_num"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+    id, org_id, user_num    </sql>
+
+</mapper>

@@ -97,7 +97,7 @@ public class CodeGenerateUtils {
         Properties prop = new Properties();
         prop.put("resource.loader.file.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
         Velocity.init(prop);
-        String mainPath = config.getString("mainPath");
+        String mainPath = config.getString("commonPackage");
         mainPath = StringUtils.isBlank(mainPath) ? "github.aloofcoder" : mainPath;
         //封装模板数据
         Map<String, Object> map = new HashMap<>();
