@@ -69,7 +69,7 @@ public class RoleController {
         return R.ok().put("data", vo);
     }
 
-    @Operation(summary = "添加", responses = {
+    @Operation(summary = "添加角色", responses = {
             @ApiResponse(responseCode = "201", description = "添加返回roleId",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = Integer.class)))
     })
@@ -80,7 +80,7 @@ public class RoleController {
         return R.ok();
     }
 
-    @Operation(summary = "修改", parameters = {
+    @Operation(summary = "修改角色", parameters = {
             @Parameter(name = "roleId", description = "roleId", in = ParameterIn.PATH)
     })
     @PutMapping(value = "/{roleId}")

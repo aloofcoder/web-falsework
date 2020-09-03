@@ -15,7 +15,6 @@ import java.util.Date;
 @Schema(name = "RoleDTO", description = "添加参数")
 public class RoleDTO {
 
-
     @Schema(name = "roleName", description = "角色名", type = "String")
     private String roleName;
 
@@ -27,13 +26,5 @@ public class RoleDTO {
 
     @Schema(name = "roleSort", description = "排序号", type = "Integer")
     private Integer roleSort;
-
-    @Schema(name = "status", description = "状态(1正常2禁用)", type = "Integer")
-    private Integer status;
-
-
-
-
-
 
 }

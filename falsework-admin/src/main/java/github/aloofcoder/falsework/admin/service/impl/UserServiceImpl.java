@@ -20,7 +20,6 @@ import github.aloofcoder.falsework.admin.service.IUserRoleService;
 import github.aloofcoder.falsework.admin.service.IUserService;
 import github.aloofcoder.falsework.common.util.AppException;
 import github.aloofcoder.falsework.common.util.PageResult;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -184,5 +183,24 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
         }
         List<Integer> roleIds = roleUsers.stream().map(UserRoleEntity::getRoleId).collect(Collectors.toList());
         return roleIds;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void userRoleAssign(String userNum, Integer[] roleIds) {
+        UserEntity entity = this.getOne(new QueryWrapper<UserEntity>().eq("user_num", userNum));
+        if (Objects.isNull(entity)) {
+            throw new AppException("分配用户角色失败，无效的用户编号");
+        }
+        // 删除用户角色
+        boolean removeUserRoleFlag = userRoleService.removeByUserNum(userNum);
+        if (!removeUserRoleFlag) {
+            throw new AppException("分配用户角色失败，请重试");
+        }
+        // 添加用户与角色关系
+        boolean saveUserRoleFlag = userRoleService.saveUserRoles(userNum, roleIds);
+        if (!saveUserRoleFlag) {
+            throw new AppException("分配用户角色失败，请重试");
+        }
     }
 }

@@ -15,6 +15,8 @@ import java.util.Date;
 @Schema(name = "OrgDetailVO", description = "查询公司组织详情返回参数")
 public class OrgDetailVO {
 
+    @Schema(name = "id", description = "组织Id", type = "Integer")
+    private Integer id;
 
     @Schema(name = "parentId", description = "父组织", type = "Integer")
     private Integer parentId;
@@ -27,11 +29,5 @@ public class OrgDetailVO {
 
     @Schema(name = "orgSort", description = "组织排序", type = "Integer")
     private Integer orgSort;
-
-    @Schema(name = "status", description = "1(正常）", type = "Integer")
-    private Integer status;
-
-
-
 
 }

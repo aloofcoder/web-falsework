@@ -8,7 +8,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import github.aloofcoder.falsework.admin.dao.UserRoleDao;
 import github.aloofcoder.falsework.admin.pojo.dto.UserRoleDTO;
 import github.aloofcoder.falsework.admin.pojo.dto.UserRolePageDTO;
-import github.aloofcoder.falsework.admin.pojo.entity.OrgUserEntity;
 import github.aloofcoder.falsework.admin.pojo.entity.UserRoleEntity;
 import github.aloofcoder.falsework.admin.pojo.vo.UserRoleDetailVO;
 import github.aloofcoder.falsework.admin.service.IUserRoleService;
@@ -17,6 +16,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -87,5 +87,28 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleDao, UserRoleEntity
             return true;
         }
         return this.remove(queryWrapper);
+    }
+
+    @Override
+    public boolean removeByUserNum(String userNum) {
+        QueryWrapper<UserRoleEntity> queryWrapper = new QueryWrapper<UserRoleEntity>();
+        queryWrapper.eq("user_num", userNum);
+        UserRoleEntity userRoleEntity = this.getOne(queryWrapper);
+        if (Objects.isNull(userRoleEntity)) {
+            return false;
+        }
+        return this.removeById(userRoleEntity);
+    }
+
+    @Override
+    public boolean saveUserRoles(String userNum, Integer[] roleIds) {
+        List<UserRoleEntity> userRoleList = new ArrayList<>();
+        Arrays.asList(roleIds).stream().forEach(item -> {
+            UserRoleEntity entity = new UserRoleEntity();
+            entity.setUserNum(userNum);
+            entity.setRoleId(item);
+            userRoleList.add(entity);
+        });
+        return this.saveBatch(userRoleList);
     }
 }

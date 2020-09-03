@@ -2,6 +2,7 @@ package github.aloofcoder.falsework.admin.controller;
 
 
 import github.aloofcoder.falsework.admin.pojo.vo.OrgListVO;
+import github.aloofcoder.falsework.admin.pojo.vo.OrgTreeVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -57,6 +58,16 @@ public class OrgController {
     @GetMapping("/list")
     public R findOrgList() {
         List<OrgListVO> list = orgService.findOrgList();
+        return R.ok().put("data", list);
+    }
+
+    @Operation(summary = "查询全部组织树",
+            responses = {
+                    @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = OrgTreeVO.class)))
+            })
+    @GetMapping("/tree")
+    public R findOrgTree() {
+        List<OrgTreeVO> list = orgService.findOrgTree();
         return R.ok().put("data", list);
     }
 

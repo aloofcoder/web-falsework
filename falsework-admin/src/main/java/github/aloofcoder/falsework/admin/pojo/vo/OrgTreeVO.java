@@ -1,18 +1,20 @@
-package github.aloofcoder.falsework.admin.pojo.dto;
+package github.aloofcoder.falsework.admin.pojo.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import java.util.List;
+
 /**
- * 公司组织
- *
  * @author hanle
- * @email hanl1946@163.com
- * @date 2020-08-20 15:51:00
+ * @date 2020-09-04
  */
 @Data
-@Schema(name = "OrgDTO", description = "添加公司组织参数")
-public class OrgDTO {
+@Schema(name = "OrgTreeVO", description = "查询公司组织树返回参数")
+public class OrgTreeVO {
+
+    @Schema(name = "id", description = "组织Id", type = "Integer")
+    private Integer id;
 
     @Schema(name = "parentId", description = "父组织", type = "Integer")
     private Integer parentId;
@@ -26,4 +28,9 @@ public class OrgDTO {
     @Schema(name = "orgSort", description = "组织排序", type = "Integer")
     private Integer orgSort;
 
+    @Schema(name = "status", description = "1(正常）", type = "Integer")
+    private Integer status;
+
+    @Schema(name = "children", description = "子组织", type = "List")
+    private List<OrgTreeVO> children;
 }

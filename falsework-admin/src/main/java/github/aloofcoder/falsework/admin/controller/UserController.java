@@ -117,6 +117,8 @@ public class UserController {
 
     @Operation(summary = "查询用户角色", parameters = {
             @Parameter(name = "userNum", description = "用户编号", required = true)
+    }, responses = {
+            @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = UserEntity.class)))
     })
     @GetMapping(value = "/roles/{userNum}")
     public R findUserRoles(@NotBlank(message = "不能为空") @PathVariable("userNum") String userNum) {
@@ -124,4 +126,12 @@ public class UserController {
         List<RoleListVO> roleList = roleService.findRoleList();
         return R.ok().put("userRoles", roleIds).put("roleList", roleList);
     }
+
+    @Operation(summary = "用户角色分配")
+    @PostMapping(value = "/roles/assign/{userNum}")
+    public R userRoleAssign(@PathVariable("userNum") String userNum, @RequestBody Integer[] roleIds) {
+        userService.userRoleAssign(userNum, roleIds);
+        return R.ok();
+    }
+
 }

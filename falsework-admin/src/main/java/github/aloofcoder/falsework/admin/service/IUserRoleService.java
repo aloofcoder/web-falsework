@@ -69,4 +69,21 @@ public interface IUserRoleService extends IService<UserRoleEntity> {
      * @return
      */
     boolean removeByUserNums(String[] userNums);
+
+    /**
+     * 通过用户编号删除用户与角色关系
+     *
+     * @param userNum
+     * @return
+     */
+    boolean removeByUserNum(String userNum);
+
+    /**
+     * 批量添加用户角色
+     *
+     * @param userNum
+     * @param roleIds
+     * @return
+     */
+    boolean saveUserRoles(String userNum, Integer[] roleIds);
 }

@@ -57,6 +57,8 @@ public class RoleServiceImpl extends ServiceImpl<RoleDao, RoleEntity> implements
     public void createRole(RoleDTO roleDTO) {
         RoleEntity entity = new RoleEntity();
         BeanUtils.copyProperties(roleDTO, entity);
+        entity.setCreateBy("1");
+        entity.setEditBy("1");
         this.save(entity);
     }
 

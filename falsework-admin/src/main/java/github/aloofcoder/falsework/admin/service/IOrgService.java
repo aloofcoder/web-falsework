@@ -7,6 +7,7 @@ import github.aloofcoder.falsework.admin.pojo.entity.OrgEntity;
 import github.aloofcoder.falsework.admin.pojo.entity.OrgUserEntity;
 import github.aloofcoder.falsework.admin.pojo.vo.OrgDetailVO;
 import github.aloofcoder.falsework.admin.pojo.vo.OrgListVO;
+import github.aloofcoder.falsework.admin.pojo.vo.OrgTreeVO;
 import github.aloofcoder.falsework.common.util.PageResult;
 
 import java.util.List;
@@ -72,4 +73,10 @@ public interface IOrgService extends IService<OrgEntity> {
      * @return
      */
     OrgEntity findOrgByOrgId(Integer orgId);
+
+    /**
+     * 查询组织树
+     * @return
+     */
+    List<OrgTreeVO> findOrgTree();
 }
