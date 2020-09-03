@@ -7,8 +7,10 @@ import github.aloofcoder.falsework.admin.pojo.vo.UserDetailVO;
 import github.aloofcoder.falsework.admin.pojo.dto.UserPageDTO;
 import github.aloofcoder.falsework.admin.pojo.dto.UserDTO;
 
+import java.util.List;
+
 /**
- * 
+ *
  *
  * @author hanle
  * @email hanl1946@163.com
@@ -25,10 +27,10 @@ public interface IUserService extends IService<UserEntity> {
 
     /**
     * 查询详情
-    * @param id
+    * @param userNum
     * @return
     */
-    UserDetailVO findUserDetail(Integer id);
+    UserDetailVO findUserDetail(String userNum);
 
     /**
      * 创建
@@ -38,16 +40,18 @@ public interface IUserService extends IService<UserEntity> {
     void createUser(UserDTO userDTO);
 
     /**
-     * 修改
-     * @param id
+     * 修改用户
+     * @param userNum
      * @param userDTO
      */
-    void updateUser(Integer id, UserDTO userDTO);
+    void updateUser(String userNum, UserDTO userDTO);
 
     /**
     * 批量删除
-    * @param ids
+    * @param userNums
     *
     */
-    void deleteUsers(Integer[] ids);
+    void deleteUsers(String[] userNums);
+
+    List<Integer> findUserRoles(String userNum);
 }

@@ -5,11 +5,11 @@ import lombok.Data;
 import java.util.Date;
 
 /**
- *
+ * 
  *
  * @author hanle
  * @email hanl1946@163.com
- * @date 2020-08-14 01:30:54
+ * @date 2020-08-20 15:51:00
  */
 @Data
 @Schema(name = "SourceDTO", description = "添加参数")
@@ -23,7 +23,7 @@ public class SourceDTO {
     private String sourceModule;
 
     @Schema(name = "method", description = "资源请求方法", type = "Enum")
-    private String method;
+    private Enum method;
 
     @Schema(name = "sourceUrl", description = "资源url", type = "String")
     private String sourceUrl;
@@ -34,14 +34,8 @@ public class SourceDTO {
     @Schema(name = "status", description = "(1正常2禁用)", type = "Integer")
     private Integer status;
 
-    @Schema(name = "createBy", description = "创建人", type = "String")
-    private String createBy;
 
-    @Schema(name = "editBy", description = "修改人", type = "String")
-    private String editBy;
 
-    @Schema(name = "createTime", description = "创建时间", type = "Date")
-    private Date createTime;
 
     @Schema(name = "editTme", description = "修改时间", type = "Date")
     private Date editTme;

@@ -2,11 +2,10 @@ package github.aloofcoder.falsework.common.pojo.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springdoc.api.annotations.ParameterObject;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 
 /**
  *
@@ -17,17 +16,18 @@ import javax.validation.constraints.NotNull;
  */
 @Data
 @ParameterObject
+@EqualsAndHashCode(callSuper = false)
 public class PageDTO {
 
     @NotNull(message = "当前页不能为空")
     @Min(value = 1, message = "当前页数必须大于等于1")
-    @Schema(name = "page", description = "页数", type = "Integer", required = true)
+    @Schema(name = "page", description = "页数", type = "Integer", required = true, example = "1")
     private Integer page;
 
     @NotNull(message = "每页条数不能为空")
     @Min(value = 1, message = "每页条数必须大于等于1")
     @Max(value = 500, message = "每页条数不能超过500")
-    @Schema(name = "limit", description = "每页条数", type = "Integer", required = true)
+    @Schema(name = "limit", description = "每页条数", type = "Integer", required = true, example = "10")
     private Integer limit;
 
     @Schema(name = "field", description = "排序字段", type = "String")

@@ -8,12 +8,11 @@ import lombok.Data;
  *
  * @author hanle
  * @email hanl1946@163.com
- * @date 2020-08-14 01:30:54
+ * @date 2020-08-20 15:51:00
  */
 @Data
 @Schema(name = "DictDTO", description = "添加数据字典参数")
 public class DictDTO {
-
 
     @Schema(name = "dictName", description = "字典名称", type = "String")
     private String dictName;

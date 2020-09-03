@@ -23,7 +23,7 @@ import github.aloofcoder.falsework.admin.pojo.vo.DictItemDetailVO;
 import github.aloofcoder.falsework.admin.pojo.dto.DictItemDTO;
 
 /**
- * 
+ *
  *
  * @author hanle
  * @email hanl1946@163.com
@@ -31,13 +31,13 @@ import github.aloofcoder.falsework.admin.pojo.dto.DictItemDTO;
  */
 @RestController
 @RequestMapping("/dictItems")
-@Tag(name = "DictItemController", description = "前端控制器")
+@Tag(name = "数据字典项", description = "前端控制器")
 public class DictItemController {
 
     @Autowired
     private IDictItemService  dictItemService;
 
-    @Operation(summary = "分页查询列表",
+        @Operation(summary = "分页查询列表",
             responses = {
                     @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = DictItemEntity.class)))
             })

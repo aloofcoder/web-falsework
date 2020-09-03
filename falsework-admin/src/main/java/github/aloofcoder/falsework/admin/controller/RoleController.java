@@ -1,6 +1,7 @@
 package github.aloofcoder.falsework.admin.controller;
 
 
+import github.aloofcoder.falsework.admin.pojo.vo.RoleListVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -22,8 +23,10 @@ import github.aloofcoder.falsework.admin.pojo.dto.RolePageDTO;
 import github.aloofcoder.falsework.admin.pojo.vo.RoleDetailVO;
 import github.aloofcoder.falsework.admin.pojo.dto.RoleDTO;
 
+import java.util.List;
+
 /**
- * 
+ *
  *
  * @author hanle
  * @email hanl1946@163.com
@@ -31,7 +34,7 @@ import github.aloofcoder.falsework.admin.pojo.dto.RoleDTO;
  */
 @RestController
 @RequestMapping("/roles")
-@Tag(name = "RoleController", description = "前端控制器")
+@Tag(name = "用户角色", description = "前端控制器")
 public class RoleController {
 
     @Autowired
@@ -45,6 +48,16 @@ public class RoleController {
     public R findRolePage(@Valid RolePageDTO pageDTO) {
         PageResult page = roleService.queryRolePage(pageDTO);
         return R.ok().put("data", page);
+    }
+
+    @Operation(summary = "查询角色列表",
+            responses = {
+                    @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = RoleListVO.class)))
+            })
+    @GetMapping("/list")
+    public R findRoleList() {
+        List<RoleListVO> list = roleService.findRoleList();
+        return R.ok().put("data", list);
     }
 
     @Operation(summary = "查询详情", parameters = {

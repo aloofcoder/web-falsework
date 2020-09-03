@@ -1,6 +1,7 @@
 package github.aloofcoder.falsework.admin.controller;
 
 
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -23,7 +24,7 @@ import github.aloofcoder.falsework.admin.pojo.vo.OrgUserDetailVO;
 import github.aloofcoder.falsework.admin.pojo.dto.OrgUserDTO;
 
 /**
- * 
+ *
  *
  * @author hanle
  * @email hanl1946@163.com
@@ -31,6 +32,7 @@ import github.aloofcoder.falsework.admin.pojo.dto.OrgUserDTO;
  */
 @RestController
 @RequestMapping("/orgUsers")
+@Hidden
 @Tag(name = "OrgUserController", description = "前端控制器")
 public class OrgUserController {
 

@@ -6,18 +6,20 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import github.aloofcoder.falsework.admin.dao.OrgDao;
-import github.aloofcoder.falsework.admin.pojo.dto.OrgPageDTO;
 import github.aloofcoder.falsework.admin.pojo.dto.OrgDTO;
+import github.aloofcoder.falsework.admin.pojo.dto.OrgPageDTO;
 import github.aloofcoder.falsework.admin.pojo.entity.OrgEntity;
+import github.aloofcoder.falsework.admin.pojo.vo.OrgDetailVO;
+import github.aloofcoder.falsework.admin.pojo.vo.OrgListVO;
 import github.aloofcoder.falsework.admin.service.IOrgService;
 import github.aloofcoder.falsework.common.util.PageResult;
-import github.aloofcoder.falsework.admin.pojo.vo.OrgDetailVO;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -73,5 +75,23 @@ public class OrgServiceImpl extends ServiceImpl<OrgDao, OrgEntity> implements IO
     @Override
     public void deleteOrgs(Integer[] ids) {
         this.removeByIds(Arrays.asList(ids));
+    }
+
+    @Override
+    public List<OrgListVO> findOrgList() {
+        List<OrgEntity> list = this.list();
+        List<OrgListVO> orgList = new ArrayList<>();
+        list.stream().forEach(item -> {
+            OrgListVO vo = new OrgListVO();
+            BeanUtils.copyProperties(item, vo);
+            orgList.add(vo);
+        });
+        return orgList;
+    }
+
+    @Override
+    public OrgEntity findOrgByOrgId(Integer orgId) {
+        OrgEntity entity = this.getOne(new QueryWrapper<OrgEntity>().eq("id", orgId));
+        return entity;
     }
 }

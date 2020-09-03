@@ -6,23 +6,23 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import github.aloofcoder.falsework.admin.dao.RoleDao;
-import github.aloofcoder.falsework.admin.pojo.dto.RolePageDTO;
 import github.aloofcoder.falsework.admin.pojo.dto.RoleDTO;
+import github.aloofcoder.falsework.admin.pojo.dto.RolePageDTO;
 import github.aloofcoder.falsework.admin.pojo.entity.RoleEntity;
+import github.aloofcoder.falsework.admin.pojo.vo.RoleDetailVO;
+import github.aloofcoder.falsework.admin.pojo.vo.RoleListVO;
 import github.aloofcoder.falsework.admin.service.IRoleService;
 import github.aloofcoder.falsework.common.util.PageResult;
-import github.aloofcoder.falsework.admin.pojo.vo.RoleDetailVO;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 /**
- * 
- *
  * @author hanle
  * @email hanl1946@163.com
  * @date 2020-08-14 01:30:55
@@ -73,5 +73,17 @@ public class RoleServiceImpl extends ServiceImpl<RoleDao, RoleEntity> implements
     @Override
     public void deleteRoles(Integer[] roleIds) {
         this.removeByIds(Arrays.asList(roleIds));
+    }
+
+    @Override
+    public List<RoleListVO> findRoleList() {
+        List<RoleEntity> list = this.list();
+        List<RoleListVO> roleList = new ArrayList<>();
+        list.forEach(item -> {
+            RoleListVO vo = new RoleListVO();
+            BeanUtils.copyProperties(item, vo);
+            roleList.add(vo);
+        });
+        return roleList;
     }
 }

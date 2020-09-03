@@ -6,23 +6,22 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import github.aloofcoder.falsework.admin.dao.UserRoleDao;
-import github.aloofcoder.falsework.admin.pojo.dto.UserRolePageDTO;
 import github.aloofcoder.falsework.admin.pojo.dto.UserRoleDTO;
+import github.aloofcoder.falsework.admin.pojo.dto.UserRolePageDTO;
+import github.aloofcoder.falsework.admin.pojo.entity.OrgUserEntity;
 import github.aloofcoder.falsework.admin.pojo.entity.UserRoleEntity;
+import github.aloofcoder.falsework.admin.pojo.vo.UserRoleDetailVO;
 import github.aloofcoder.falsework.admin.service.IUserRoleService;
 import github.aloofcoder.falsework.common.util.PageResult;
-import github.aloofcoder.falsework.admin.pojo.vo.UserRoleDetailVO;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 /**
- * 
- *
  * @author hanle
  * @email hanl1946@163.com
  * @date 2020-08-14 01:30:55
@@ -73,5 +72,20 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleDao, UserRoleEntity
     @Override
     public void deleteUserRoles(Integer[] ids) {
         this.removeByIds(Arrays.asList(ids));
+    }
+
+    @Override
+    public List<UserRoleEntity> findUserRolesByUserNums(String userNum) {
+        return this.list(new QueryWrapper<UserRoleEntity>().eq("user_num", userNum));
+    }
+
+    @Override
+    public boolean removeByUserNums(String[] userNums) {
+        QueryWrapper<UserRoleEntity> queryWrapper = new QueryWrapper<UserRoleEntity>().in("user_num", userNums);
+        List<UserRoleEntity> list = this.list(queryWrapper);
+        if (list.size() <= 0) {
+            return true;
+        }
+        return this.remove(queryWrapper);
     }
 }

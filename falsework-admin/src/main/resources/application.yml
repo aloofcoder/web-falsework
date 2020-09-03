@@ -23,3 +23,10 @@ mybatis-plus:
 logging:
   level:
     github.aloofcoder.falsework.admin.dao: debug
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    # 配置不展开文档
+    doc-expansion: 'none'

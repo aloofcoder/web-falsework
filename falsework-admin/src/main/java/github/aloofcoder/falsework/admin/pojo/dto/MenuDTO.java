@@ -9,7 +9,7 @@ import java.util.Date;
  *
  * @author hanle
  * @email hanl1946@163.com
- * @date 2020-08-14 01:30:54
+ * @date 2020-08-20 15:51:00
  */
 @Data
 @Schema(name = "MenuDTO", description = "添加系统菜单参数")
@@ -28,11 +28,11 @@ public class MenuDTO {
     @Schema(name = "menuRedirect", description = "重定向路径", type = "String")
     private String menuRedirect;
 
-    @Schema(name = "menuMark", description = "菜单标记", type = "String")
+    @Schema(name = "menuMark", description = "权限标记", type = "String")
     private String menuMark;
 
-    @Schema(name = "menuMeta", description = "菜单元信息(json格式数据)", type = "String")
-    private String menuMeta;
+    @Schema(name = "menuClass", description = "菜单类型（1目录2菜单3按钮）", type = "Integer")
+    private Integer menuClass;
 
     @Schema(name = "menuDesc", description = "菜单描述", type = "String")
     private String menuDesc;
@@ -46,15 +46,4 @@ public class MenuDTO {
     @Schema(name = "status", description = "状态（1正常2禁用）", type = "Integer")
     private Integer status;
 
-    @Schema(name = "createBy", description = "创建人", type = "String")
-    private String createBy;
-
-    @Schema(name = "editBy", description = "修改人", type = "String")
-    private String editBy;
-
-    @Schema(name = "createTime", description = "创建时间", type = "Date")
-    private Date createTime;
-
-    @Schema(name = "editTime", description = "修改时间", type = "Date")
-    private Date editTime;
 }

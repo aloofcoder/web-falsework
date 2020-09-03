@@ -10,7 +10,7 @@
             <result property="menuPath" column="menu_path"/>
             <result property="menuRedirect" column="menu_redirect"/>
             <result property="menuMark" column="menu_mark"/>
-            <result property="menuMeta" column="menu_meta"/>
+            <result property="menuClass" column="menu_class"/>
             <result property="menuDesc" column="menu_desc"/>
             <result property="menuSort" column="menu_sort"/>
             <result property="isHidden" column="is_hidden"/>
@@ -23,6 +23,6 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-    id, parent_id, menu_name, menu_path, menu_redirect, menu_mark, menu_meta, menu_desc, menu_sort, is_hidden, status, create_by, edit_by, create_time, edit_time    </sql>
+    id, parent_id, menu_name, menu_path, menu_redirect, menu_mark, menu_class, menu_desc, menu_sort, is_hidden, status, create_by, edit_by, create_time, edit_time    </sql>
 
 </mapper>

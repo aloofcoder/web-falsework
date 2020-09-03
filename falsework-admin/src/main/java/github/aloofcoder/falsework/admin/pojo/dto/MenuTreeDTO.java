@@ -3,20 +3,15 @@ package github.aloofcoder.falsework.admin.pojo.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.springdoc.api.annotations.ParameterObject;
-import github.aloofcoder.falsework.common.pojo.dto.PageDTO;
 
 /**
- *
- *
  * @author hanle
- * @email hanl1946@163.com
- * @date 2020-08-20 15:51:01
+ * @date 2020/8/20 15:57
  */
 @Data
 @ParameterObject
-public class UserPageDTO extends PageDTO {
+public class MenuTreeDTO {
 
-    @Schema(name = "condition", description = "用户名/登录名/邮箱", type = "String")
+    @Schema(name = "condition", description = "菜单名称/菜单路径", type = "string")
     private String condition;
-
 }

@@ -4,19 +4,14 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * @author hanle
- * @email hanl1946@163.com
- * @date 2020-08-20 15:51:01
+ * @date 2020/9/3 16:10
  */
 @Data
-@Schema(name = "UserDetailVO", description = "查询详情返回参数")
-public class UserDetailVO {
-
-    @Schema(name = "orgId", description = "所属部门Id", type = "Integer")
-    private Integer orgId;
+@Schema(name = "UserPageVO", description = "分页查询用户返回参数")
+public class UserPageVO {
 
     @Schema(name = "userNum", description = "系统编号", type = "String")
     private String userNum;
@@ -38,5 +33,4 @@ public class UserDetailVO {
 
     @Schema(name = "status", description = "状态（1正常）", type = "Integer")
     private Integer status;
-
 }

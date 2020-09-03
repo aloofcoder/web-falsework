@@ -8,7 +8,7 @@ import lombok.Data;
  *
  * @author hanle
  * @email hanl1946@163.com
- * @date 2020-08-14 01:30:54
+ * @date 2020-08-20 15:51:00
  */
 @Data
 @Schema(name = "RoleMenuDetailVO", description = "查询详情返回参数")

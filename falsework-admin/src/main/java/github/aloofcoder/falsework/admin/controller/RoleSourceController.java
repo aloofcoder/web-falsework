@@ -1,6 +1,7 @@
 package github.aloofcoder.falsework.admin.controller;
 
 
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -23,12 +24,13 @@ import github.aloofcoder.falsework.admin.pojo.vo.RoleSourceDetailVO;
 import github.aloofcoder.falsework.admin.pojo.dto.RoleSourceDTO;
 
 /**
- * 
+ *
  *
  * @author hanle
  * @email hanl1946@163.com
  * @date 2020-08-14 01:30:54
  */
+@Hidden
 @RestController
 @RequestMapping("/roleSources")
 @Tag(name = "RoleSourceController", description = "前端控制器")

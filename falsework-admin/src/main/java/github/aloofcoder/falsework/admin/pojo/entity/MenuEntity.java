@@ -1,6 +1,7 @@
 package github.aloofcoder.falsework.admin.pojo.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -9,13 +10,14 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 系统菜单
  *
  * @author hanle
  * @email hanl1946@163.com
- * @date 2020-08-14 01:30:54
+ * @date 2020-08-20 14:48:53
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -47,13 +49,13 @@ public class MenuEntity extends Model<MenuEntity> {
      */
     private String menuRedirect;
     /**
-     * 菜单标记
+     * 权限标记
      */
     private String menuMark;
     /**
-     * 菜单元信息(json格式数据)
+     * 菜单类型（1目录2菜单3按钮）
      */
-    private String menuMeta;
+    private Integer menuClass;
     /**
      * 菜单描述
      */
@@ -86,6 +88,9 @@ public class MenuEntity extends Model<MenuEntity> {
      * 修改时间
      */
     private Date editTime;
+
+    @TableField(exist = false)
+    private List<MenuEntity> children;
 
     @Override
     protected Serializable pkVal() {

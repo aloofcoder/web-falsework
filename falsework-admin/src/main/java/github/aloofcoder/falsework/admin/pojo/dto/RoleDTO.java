@@ -5,11 +5,11 @@ import lombok.Data;
 import java.util.Date;
 
 /**
- * 
+ *
  *
  * @author hanle
  * @email hanl1946@163.com
- * @date 2020-08-14 01:30:55
+ * @date 2020-08-20 15:51:01
  */
 @Data
 @Schema(name = "RoleDTO", description = "添加参数")
@@ -31,15 +31,9 @@ public class RoleDTO {
     @Schema(name = "status", description = "状态(1正常2禁用)", type = "Integer")
     private Integer status;
 
-    @Schema(name = "createBy", description = "", type = "String")
-    private String createBy;
 
-    @Schema(name = "editBy", description = "", type = "String")
-    private String editBy;
 
-    @Schema(name = "createTime", description = "", type = "Date")
-    private Date createTime;
 
-    @Schema(name = "editTime", description = "", type = "Date")
-    private Date editTime;
+
+
 }

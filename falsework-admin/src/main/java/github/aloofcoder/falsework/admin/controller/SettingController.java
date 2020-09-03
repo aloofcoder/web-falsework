@@ -31,7 +31,7 @@ import github.aloofcoder.falsework.admin.pojo.dto.SettingDTO;
  */
 @RestController
 @RequestMapping("/settings")
-@Tag(name = "系统全局设置表", description = "系统全局设置表前端控制器")
+@Tag(name = "系统设置", description = "系统全局设置表前端控制器")
 public class SettingController {
 
     @Autowired

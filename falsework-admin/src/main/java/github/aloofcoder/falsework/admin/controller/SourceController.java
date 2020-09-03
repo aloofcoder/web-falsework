@@ -23,7 +23,7 @@ import github.aloofcoder.falsework.admin.pojo.vo.SourceDetailVO;
 import github.aloofcoder.falsework.admin.pojo.dto.SourceDTO;
 
 /**
- * 
+ *
  *
  * @author hanle
  * @email hanl1946@163.com
@@ -31,7 +31,7 @@ import github.aloofcoder.falsework.admin.pojo.dto.SourceDTO;
  */
 @RestController
 @RequestMapping("/sources")
-@Tag(name = "SourceController", description = "前端控制器")
+@Tag(name = "API权限", description = "前端控制器")
 public class SourceController {
 
     @Autowired

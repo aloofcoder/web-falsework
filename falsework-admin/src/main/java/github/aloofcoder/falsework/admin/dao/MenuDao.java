@@ -9,7 +9,7 @@ import github.aloofcoder.falsework.admin.pojo.entity.MenuEntity;
  *
  * @author hanle
  * @email hanl1946@163.com
- * @date 2020-08-14 01:30:54
+ * @date 2020-08-20 14:48:53
  */
 @Repository
 public interface MenuDao extends BaseMapper<MenuEntity> {

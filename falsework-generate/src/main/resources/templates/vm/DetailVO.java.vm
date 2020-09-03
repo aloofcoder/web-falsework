@@ -24,7 +24,7 @@ import java.util.List;
 public class ${className}DetailVO {
 #foreach ($column in $columns)
 
-    #if($column.columnName != $pk.columnName && $column.columnName != "createTime" && $column.columnName != "editTime" && $column.columnName != "createBy"  && $column.columnName != "editBy")
+    #if($column.attrname != "createTime" && $column.attrname != "editTime" && $column.attrname != "createBy"  && $column.attrname != "editBy")
     @Schema(name = "${column.attrname}", description = "${column.comments}", type = "${column.attrType}")
     private $column.attrType $column.attrname;
     #end

@@ -9,7 +9,7 @@ import java.util.Date;
  *
  * @author hanle
  * @email hanl1946@163.com
- * @date 2020-08-14 01:30:54
+ * @date 2020-08-20 15:51:00
  */
 @Data
 @Schema(name = "OrgDetailVO", description = "查询公司组织详情返回参数")
@@ -31,15 +31,7 @@ public class OrgDetailVO {
     @Schema(name = "status", description = "1(正常）", type = "Integer")
     private Integer status;
 
-    @Schema(name = "createBy", description = "创建人", type = "String")
-    private String createBy;
 
-    @Schema(name = "editBy", description = "修改人", type = "String")
-    private String editBy;
 
-    @Schema(name = "createTime", description = "创建时间", type = "Date")
-    private Date createTime;
 
-    @Schema(name = "editTime", description = "修改时间", type = "Date")
-    private Date editTime;
 }

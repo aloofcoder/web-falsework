@@ -1,6 +1,7 @@
 package github.aloofcoder.falsework.admin.controller;
 
 
+import github.aloofcoder.falsework.admin.pojo.vo.OrgListVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -21,6 +22,8 @@ import github.aloofcoder.falsework.admin.service.IOrgService;
 import github.aloofcoder.falsework.admin.pojo.dto.OrgPageDTO;
 import github.aloofcoder.falsework.admin.pojo.vo.OrgDetailVO;
 import github.aloofcoder.falsework.admin.pojo.dto.OrgDTO;
+
+import java.util.List;
 
 /**
  * 公司组织
@@ -45,6 +48,16 @@ public class OrgController {
     public R findOrgPage(@Valid OrgPageDTO pageDTO) {
         PageResult page = orgService.queryOrgPage(pageDTO);
         return R.ok().put("data", page);
+    }
+
+    @Operation(summary = "查询全部组织列表",
+            responses = {
+                    @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = OrgListVO.class)))
+            })
+    @GetMapping("/list")
+    public R findOrgList() {
+        List<OrgListVO> list = orgService.findOrgList();
+        return R.ok().put("data", list);
     }
 
     @Operation(summary = "查询公司组织详情", parameters = {
