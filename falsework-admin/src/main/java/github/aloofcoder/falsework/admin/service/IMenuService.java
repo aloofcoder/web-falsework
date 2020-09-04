@@ -5,7 +5,9 @@ import github.aloofcoder.falsework.admin.pojo.dto.MenuDTO;
 import github.aloofcoder.falsework.admin.pojo.dto.MenuPageDTO;
 import github.aloofcoder.falsework.admin.pojo.dto.MenuTreeDTO;
 import github.aloofcoder.falsework.admin.pojo.entity.MenuEntity;
+import github.aloofcoder.falsework.admin.pojo.vo.MenuAuthListVO;
 import github.aloofcoder.falsework.admin.pojo.vo.MenuDetailVO;
+import github.aloofcoder.falsework.admin.pojo.vo.MenuListVO;
 import github.aloofcoder.falsework.common.util.PageResult;
 
 import java.util.List;
@@ -71,4 +73,18 @@ public interface IMenuService extends IService<MenuEntity> {
      * @return
      */
     List<MenuEntity> findAuth();
+
+    /**
+     * 查询菜单列表
+     *
+     * @return
+     */
+    List<MenuListVO> findMenuList();
+
+    /**
+     * 查询角色授权菜单列表
+     *
+     * @return
+     */
+    List<MenuAuthListVO> findAuthMenu();
 }

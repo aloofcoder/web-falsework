@@ -93,11 +93,11 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleDao, UserRoleEntity
     public boolean removeByUserNum(String userNum) {
         QueryWrapper<UserRoleEntity> queryWrapper = new QueryWrapper<UserRoleEntity>();
         queryWrapper.eq("user_num", userNum);
-        UserRoleEntity userRoleEntity = this.getOne(queryWrapper);
-        if (Objects.isNull(userRoleEntity)) {
-            return false;
+        List<UserRoleEntity> list = this.list(queryWrapper);
+        if (list.size() <= 0) {
+            return true;
         }
-        return this.removeById(userRoleEntity);
+        return this.remove(queryWrapper);
     }
 
     @Override

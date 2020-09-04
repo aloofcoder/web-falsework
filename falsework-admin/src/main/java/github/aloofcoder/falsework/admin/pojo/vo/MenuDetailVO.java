@@ -15,8 +15,10 @@ import java.util.Date;
 @Schema(name = "MenuDetailVO", description = "查询系统菜单详情返回参数")
 public class MenuDetailVO {
 
+    @Schema(name = "id", description = "菜单Id", type = "Integer")
+    private Integer id;
 
-    @Schema(name = "parentId", description = "上级资源", type = "Integer")
+    @Schema(name = "parentId", description = "上级菜单", type = "Integer")
     private Integer parentId;
 
     @Schema(name = "menuName", description = "菜单名", type = "String")
@@ -34,6 +36,9 @@ public class MenuDetailVO {
     @Schema(name = "menuClass", description = "菜单类型（1目录2菜单3按钮）", type = "Integer")
     private Integer menuClass;
 
+    @Schema(name = "menuIcon", description = "菜单图标", type = "String")
+    private String menuIcon;
+
     @Schema(name = "menuDesc", description = "菜单描述", type = "String")
     private String menuDesc;
 
@@ -45,8 +50,5 @@ public class MenuDetailVO {
 
     @Schema(name = "status", description = "状态（1正常2禁用）", type = "Integer")
     private Integer status;
-
-
-
 
 }

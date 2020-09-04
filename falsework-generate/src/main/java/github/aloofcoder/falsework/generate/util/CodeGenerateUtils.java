@@ -31,7 +31,7 @@ public class CodeGenerateUtils {
             return new PropertiesConfiguration("generate.properties");
         } catch (ConfigurationException e) {
             e.printStackTrace();
-            throw new AppException("获取配置文件失败，", e);
+            throw new AppException("获取配置文件失败，" , e);
         }
     }
 
@@ -95,31 +95,31 @@ public class CodeGenerateUtils {
 
         //设置velocity资源加载器
         Properties prop = new Properties();
-        prop.put("resource.loader.file.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+        prop.put("resource.loader.file.class" , "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
         Velocity.init(prop);
         String mainPath = config.getString("commonPackage");
         mainPath = StringUtils.isBlank(mainPath) ? "github.aloofcoder" : mainPath;
         //封装模板数据
         Map<String, Object> map = new HashMap<>();
-        map.put("tableName", tableEntity.getTableName());
+        map.put("tableName" , tableEntity.getTableName());
 
-        map.put("comments", tableEntity.getComments());
-        map.put("pkName", tableEntity.getPk().getColumnName());
-        map.put("pk", tableEntity.getPk());
-        map.put("PKName", WordUtils.capitalize(tableEntity.getPk().getAttrName()));
-        map.put("className", tableEntity.getClassName());
-        map.put("classname", tableEntity.getClassname());
-        map.put("pathName", tableEntity.getClassname().toLowerCase());
-        map.put("columns", tableEntity.getColumns());
-        map.put("hasBigDecimal", hasBigDecimal);
-        map.put("hasList", hasList);
-        map.put("hasDate", hasDate);
-        map.put("mainPath", mainPath);
-        map.put("package", config.getString("package"));
-        map.put("moduleName", config.getString("moduleName"));
-        map.put("author", config.getString("author"));
-        map.put("email", config.getString("email"));
-        map.put("datetime", DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
+        map.put("comments" , tableEntity.getComments());
+        map.put("pkName" , tableEntity.getPk().getColumnName());
+        map.put("pk" , tableEntity.getPk());
+        map.put("PKName" , WordUtils.capitalize(tableEntity.getPk().getAttrName()));
+        map.put("className" , tableEntity.getClassName());
+        map.put("classname" , tableEntity.getClassname());
+        map.put("pathName" , tableEntity.getClassname().toLowerCase());
+        map.put("columns" , tableEntity.getColumns());
+        map.put("hasBigDecimal" , hasBigDecimal);
+        map.put("hasList" , hasList);
+        map.put("hasDate" , hasDate);
+        map.put("mainPath" , mainPath);
+        map.put("package" , config.getString("package"));
+        map.put("moduleName" , config.getString("moduleName"));
+        map.put("author" , config.getString("author"));
+        map.put("email" , config.getString("email"));
+        map.put("datetime" , DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
         VelocityContext context = new VelocityContext(map);
         //获取模板列表
         List<String> templates = getTemplates();
@@ -143,8 +143,6 @@ public class CodeGenerateUtils {
 
     public static List<String> getTemplates() {
         List<String> templates = new ArrayList<String>();
-//
-//
         templates.add("templates/vm/Dao.java.vm");
         templates.add("templates/vm/Mapper.xml.vm");
         templates.add("templates/vm/Service.java.vm");
@@ -154,15 +152,9 @@ public class CodeGenerateUtils {
         templates.add("templates/vm/PageDTO.java.vm");
         templates.add("templates/vm/DTO.java.vm");
         templates.add("templates/vm/DetailVO.java.vm");
-//        templates.add("template/Entity.java.vm");
-//        templates.add("template/menu.sql.vm");
-//        templates.add("template/Controller.java.vm");
-//
-//        templates.add("template/index.vue.vm");
-//        templates.add("template/add-or-update.vue.vm");
-//        templates.add("templates/Service.java.vm");
-//        templates.add("templates/serviceImpl.jav.vma");
-//        templates.add("templates/Mapper.xml.vm");
+        templates.add("templates/vm/index.vue.vm");
+        templates.add("templates/vm/add-or-edit.vue.vm");
+        templates.add("templates/vm/classname.js.vm");
         return templates;
     }
 
@@ -173,7 +165,7 @@ public class CodeGenerateUtils {
     public static String getFileName(String template, String className, String packageName, String moduleName) {
         String packagePath = "main" + File.separator + "java" + File.separator;
         if (StringUtils.isNotBlank(packageName)) {
-            packagePath += packageName.replace(".", File.separator) + File.separator + moduleName + File.separator;
+            packagePath += packageName.replace("." , File.separator) + File.separator + moduleName + File.separator;
         }
         if (template.contains("Entity.java.vm") || template.contains("MongoEntity.java.vm")) {
             return packagePath + "pojo" + File.separator + "entity" + File.separator + className + "Entity.java";
@@ -220,11 +212,15 @@ public class CodeGenerateUtils {
                     File.separator + moduleName + File.separator + className.toLowerCase() + ".vue";
         }
 
-        if (template.contains("add-or-update.vue.vm")) {
+        if (template.contains("add-or-edit.vue.vm")) {
             return "main" + File.separator + "resources" + File.separator + "src" + File.separator + "views" + File.separator + "modules" +
-                    File.separator + moduleName + File.separator + className.toLowerCase() + "-add-or-update.vue";
+                    File.separator + moduleName + File.separator + "add-or-edit-" + className.toLowerCase() + ".vue";
         }
 
+        if (template.contains("classname.js.vm")) {
+            return "main" + File.separator + "resources" + File.separator + "src" + File.separator + "views" + File.separator + "modules" +
+                    File.separator + moduleName + File.separator + className.toLowerCase() + ".js";
+        }
         return null;
     }
 
@@ -244,7 +240,7 @@ public class CodeGenerateUtils {
      * 列名转换成Java属性名
      */
     public static String columnToJava(String columnName) {
-        return WordUtils.capitalizeFully(columnName, new char[]{'_'}).replace("_", "");
+        return WordUtils.capitalizeFully(columnName, new char[]{'_'}).replace("_" , "");
     }
 
 

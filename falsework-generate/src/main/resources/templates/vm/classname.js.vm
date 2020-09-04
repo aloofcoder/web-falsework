@@ -1,0 +1,42 @@
+import request from '@/utils/request'
+
+export function fetchList(params) {
+    return request({
+        url: '/${classname}s/page',
+        method: 'get',
+        params
+    })
+}
+
+export function add${className}(data) {
+    return request({
+        url: '/${classname}s',
+        method: 'post',
+        data
+    })
+}
+
+
+export function edit${className}($pk.attrname, data) {
+    return request({
+        url: `/${classname}s/${${pk.attrname}}`,
+        method: 'put',
+        data
+    })
+}
+
+
+export function fetch${className}(param) {
+    return request({
+        url: `/${classname}s/${param}`,
+        method: 'get'
+    })
+}
+
+export function remove${className}(data) {
+    return request({
+        url: '/${classname}s',
+        method: 'delete',
+        data
+    })
+}

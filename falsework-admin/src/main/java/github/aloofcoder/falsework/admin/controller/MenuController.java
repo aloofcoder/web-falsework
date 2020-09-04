@@ -6,6 +6,7 @@ import github.aloofcoder.falsework.admin.pojo.dto.MenuPageDTO;
 import github.aloofcoder.falsework.admin.pojo.dto.MenuTreeDTO;
 import github.aloofcoder.falsework.admin.pojo.entity.MenuEntity;
 import github.aloofcoder.falsework.admin.pojo.vo.MenuDetailVO;
+import github.aloofcoder.falsework.admin.pojo.vo.MenuListVO;
 import github.aloofcoder.falsework.admin.service.IMenuService;
 import github.aloofcoder.falsework.common.util.PageResult;
 import github.aloofcoder.falsework.common.util.R;
@@ -56,6 +57,16 @@ public class MenuController {
     @GetMapping("/tree")
     public R findMenuTree(@Valid MenuTreeDTO menuTreeDTO) {
         List<MenuEntity> list = menuService.findMenuTree(menuTreeDTO);
+        return R.ok().put("data", list);
+    }
+
+    @Operation(summary = "查询树状目录和菜单",
+            responses = {
+                    @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = MenuListVO.class)))
+            })
+    @GetMapping("/list")
+    public R findMenuList() {
+        List<MenuListVO> list = menuService.findMenuList();
         return R.ok().put("data", list);
     }
 

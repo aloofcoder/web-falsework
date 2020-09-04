@@ -3,9 +3,13 @@ package github.aloofcoder.falsework.admin.controller;
 
 import github.aloofcoder.falsework.admin.pojo.dto.UserDTO;
 import github.aloofcoder.falsework.admin.pojo.dto.UserPageDTO;
+import github.aloofcoder.falsework.admin.pojo.entity.MenuEntity;
 import github.aloofcoder.falsework.admin.pojo.entity.UserEntity;
+import github.aloofcoder.falsework.admin.pojo.vo.MenuAuthListVO;
+import github.aloofcoder.falsework.admin.pojo.vo.MenuListVO;
 import github.aloofcoder.falsework.admin.pojo.vo.RoleListVO;
 import github.aloofcoder.falsework.admin.pojo.vo.UserDetailVO;
+import github.aloofcoder.falsework.admin.service.IMenuService;
 import github.aloofcoder.falsework.admin.service.IRoleService;
 import github.aloofcoder.falsework.admin.service.IUserService;
 import github.aloofcoder.falsework.common.util.PageResult;
@@ -42,6 +46,8 @@ public class UserController {
     private IUserService userService;
     @Autowired
     private IRoleService roleService;
+    @Autowired
+    private IMenuService menuService;
 
     @PostMapping("/login")
     public R login() {
@@ -59,7 +65,9 @@ public class UserController {
         info.put("introduction", "I am a super administrator");
         info.put("avatar", "https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif");
         info.put("name", "Super Admin");
-        return R.ok().put("data", info);
+        List<MenuEntity> auths = menuService.findAuth();
+        List<MenuAuthListVO> menuList = menuService.findAuthMenu();
+        return R.ok().put("data", info).put("auths", auths).put("menus", menuList);
     }
 
     @PostMapping("/logout")
@@ -128,7 +136,7 @@ public class UserController {
     }
 
     @Operation(summary = "用户角色分配")
-    @PostMapping(value = "/roles/assign/{userNum}")
+    @PostMapping(value = "/roles/{userNum}")
     public R userRoleAssign(@PathVariable("userNum") String userNum, @RequestBody Integer[] roleIds) {
         userService.userRoleAssign(userNum, roleIds);
         return R.ok();

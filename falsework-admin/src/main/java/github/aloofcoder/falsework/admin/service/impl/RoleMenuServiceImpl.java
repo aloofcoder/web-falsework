@@ -6,23 +6,22 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import github.aloofcoder.falsework.admin.dao.RoleMenuDao;
-import github.aloofcoder.falsework.admin.pojo.dto.RoleMenuPageDTO;
 import github.aloofcoder.falsework.admin.pojo.dto.RoleMenuDTO;
+import github.aloofcoder.falsework.admin.pojo.dto.RoleMenuPageDTO;
 import github.aloofcoder.falsework.admin.pojo.entity.RoleMenuEntity;
+import github.aloofcoder.falsework.admin.pojo.vo.RoleMenuDetailVO;
 import github.aloofcoder.falsework.admin.service.IRoleMenuService;
 import github.aloofcoder.falsework.common.util.PageResult;
-import github.aloofcoder.falsework.admin.pojo.vo.RoleMenuDetailVO;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
- * 
- *
  * @author hanle
  * @email hanl1946@163.com
  * @date 2020-08-14 01:30:54
@@ -73,5 +72,13 @@ public class RoleMenuServiceImpl extends ServiceImpl<RoleMenuDao, RoleMenuEntity
     @Override
     public void deleteRoleMenus(Integer[] ids) {
         this.removeByIds(Arrays.asList(ids));
+    }
+
+    @Override
+    public List<Integer> findRoleAuthMenuIds() {
+        QueryWrapper<RoleMenuEntity> queryWrapper = new QueryWrapper<>();
+        // TODO - 添加角色条件
+        List<Integer> menuIds = this.list(queryWrapper).stream().map(RoleMenuEntity::getMenuId).collect(Collectors.toList());
+        return menuIds;
     }
 }

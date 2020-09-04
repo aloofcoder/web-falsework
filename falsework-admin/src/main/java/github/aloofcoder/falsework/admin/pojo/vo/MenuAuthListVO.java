@@ -1,22 +1,23 @@
-package github.aloofcoder.falsework.admin.pojo.dto;
+package github.aloofcoder.falsework.admin.pojo.vo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import java.util.Date;
+
+import java.util.List;
 
 /**
- * 系统菜单
- *
  * @author hanle
- * @email hanl1946@163.com
- * @date 2020-08-20 15:51:00
+ * @date 2020/9/4 16:25
  */
 @Data
-@Schema(name = "MenuDTO", description = "添加系统菜单参数")
-public class MenuDTO {
+@Schema(name = "MenuAuthListVO", description = "查询角色授权目录/菜单列表返回参数")
+public class MenuAuthListVO {
 
+    @Schema(name = "id", description = "菜单Id", type = "Integer")
+    private Integer id;
 
-    @Schema(name = "parentId", description = "上级资源", type = "Integer")
+    @Schema(name = "parentId", description = "上级菜单", type = "Integer")
     private Integer parentId;
 
     @Schema(name = "menuName", description = "菜单名", type = "String")
@@ -24,6 +25,8 @@ public class MenuDTO {
 
     @Schema(name = "menuPath", description = "菜单路径", type = "String")
     private String menuPath;
+
+    private String menuComponent;
 
     @Schema(name = "menuRedirect", description = "重定向路径", type = "String")
     private String menuRedirect;
@@ -46,7 +49,6 @@ public class MenuDTO {
     @Schema(name = "isHidden", description = "是否隐藏（1隐藏0显示）", type = "Integer")
     private Integer isHidden;
 
-    @Schema(name = "status", description = "状态（1正常2禁用）", type = "Integer")
-    private Integer status;
-
+    @Schema(name = "children", description = "子菜单", type = "List")
+    private List<MenuAuthListVO> children;
 }

@@ -44,6 +44,8 @@ public class MenuEntity extends Model<MenuEntity> {
      * 菜单路径
      */
     private String menuPath;
+
+    private String menuComponent;
     /**
      * 重定向路径
      */
@@ -56,6 +58,11 @@ public class MenuEntity extends Model<MenuEntity> {
      * 菜单类型（1目录2菜单3按钮）
      */
     private Integer menuClass;
+
+    /**
+     * 菜单图标
+     */
+    private String menuIcon;
     /**
      * 菜单描述
      */
