@@ -5,7 +5,7 @@ import org.springdoc.api.annotations.ParameterObject;
 import github.aloofcoder.falsework.common.pojo.dto.PageDTO;
 
 /**
- * 
+ *
  *
  * @author hanle
  * @email hanl1946@163.com
@@ -14,5 +14,7 @@ import github.aloofcoder.falsework.common.pojo.dto.PageDTO;
 @Data
 @ParameterObject
 public class RolePageDTO extends PageDTO {
+
+    private String condition;
 
 }

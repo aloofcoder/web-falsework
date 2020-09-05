@@ -10,6 +10,7 @@ import github.aloofcoder.falsework.admin.pojo.dto.MenuDTO;
 import github.aloofcoder.falsework.admin.pojo.dto.MenuPageDTO;
 import github.aloofcoder.falsework.admin.pojo.dto.MenuTreeDTO;
 import github.aloofcoder.falsework.admin.pojo.entity.MenuEntity;
+import github.aloofcoder.falsework.admin.pojo.entity.RoleMenuEntity;
 import github.aloofcoder.falsework.admin.pojo.vo.MenuAuthListVO;
 import github.aloofcoder.falsework.admin.pojo.vo.MenuDetailVO;
 import github.aloofcoder.falsework.admin.pojo.vo.MenuListVO;
@@ -125,9 +126,11 @@ public class MenuServiceImpl extends ServiceImpl<MenuDao, MenuEntity> implements
     }
 
     @Override
-    public List<MenuListVO> findMenuList() {
+    public List<MenuListVO> findMenuList(boolean hasBtn) {
         QueryWrapper<MenuEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.ne("menu_class", 3);
+        if (!hasBtn) {
+            queryWrapper.ne("menu_class", 3);
+        }
         List<MenuListVO> menuList = this.list(queryWrapper).stream().map(item -> {
             MenuListVO vo = new MenuListVO();
             BeanUtils.copyProperties(item, vo);
@@ -150,6 +153,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuDao, MenuEntity> implements
                 }
             });
         });
+
         return tree;
     }
 
@@ -166,5 +170,23 @@ public class MenuServiceImpl extends ServiceImpl<MenuDao, MenuEntity> implements
             return vo;
         }).collect(Collectors.toList());
         return menuList;
+    }
+
+    @Override
+    public List<MenuListVO> findRoleMenuListByRoleId(Integer roleId) {
+        QueryWrapper<RoleMenuEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("role_id", roleId);
+        List<Integer> menuIds = roleMenuService.list(queryWrapper).stream().map(RoleMenuEntity::getMenuId).collect(Collectors.toList());
+        if (menuIds.size() <= 0) {
+            return new ArrayList<>();
+        }
+        QueryWrapper<MenuEntity> menuQueryWrapper = new QueryWrapper<>();
+        menuQueryWrapper.in("id", menuIds).eq("status", 1);
+        List<MenuListVO> roleMenu = this.list(menuQueryWrapper).stream().map(item -> {
+            MenuListVO vo = new MenuListVO();
+            BeanUtils.copyProperties(item, vo);
+            return vo;
+        }).collect(Collectors.toList());
+        return roleMenu;
     }
 }

@@ -27,6 +27,9 @@ public class MenuDetailVO {
     @Schema(name = "menuPath", description = "菜单路径", type = "String")
     private String menuPath;
 
+    @Schema(name = "menuComponent", description = "组件地址", type = "String")
+    private String menuComponent;
+
     @Schema(name = "menuRedirect", description = "重定向路径", type = "String")
     private String menuRedirect;
 

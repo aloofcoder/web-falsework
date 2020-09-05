@@ -77,9 +77,10 @@ public interface IMenuService extends IService<MenuEntity> {
     /**
      * 查询菜单列表
      *
+     * @param hasBtn
      * @return
      */
-    List<MenuListVO> findMenuList();
+    List<MenuListVO> findMenuList(boolean hasBtn);
 
     /**
      * 查询角色授权菜单列表
@@ -87,4 +88,6 @@ public interface IMenuService extends IService<MenuEntity> {
      * @return
      */
     List<MenuAuthListVO> findAuthMenu();
+
+    List<MenuListVO> findRoleMenuListByRoleId(Integer roleId);
 }

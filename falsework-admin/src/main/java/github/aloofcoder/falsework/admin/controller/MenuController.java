@@ -40,17 +40,7 @@ public class MenuController {
     @Autowired
     private IMenuService menuService;
 
-    @Operation(summary = "分页查询系统菜单列表",
-            responses = {
-                    @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = MenuEntity.class)))
-            })
-    @GetMapping("/page")
-    public R findMenuPage(@Valid MenuPageDTO pageDTO) {
-        PageResult page = menuService.queryMenuPage(pageDTO);
-        return R.ok().put("data", page);
-    }
-
-    @Operation(summary = "查询树状菜单",
+    @Operation(summary = "查询树状全部菜单",
             responses = {
                     @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = MenuEntity.class)))
             })
@@ -66,7 +56,7 @@ public class MenuController {
             })
     @GetMapping("/list")
     public R findMenuList() {
-        List<MenuListVO> list = menuService.findMenuList();
+        List<MenuListVO> list = menuService.findMenuList(false);
         return R.ok().put("data", list);
     }
 

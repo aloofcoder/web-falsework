@@ -1,6 +1,5 @@
 package github.aloofcoder.falsework.admin.pojo.vo;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -26,6 +25,7 @@ public class MenuAuthListVO {
     @Schema(name = "menuPath", description = "菜单路径", type = "String")
     private String menuPath;
 
+    @Schema(name = "menuComponent", description = "菜单组件地址", type = "String")
     private String menuComponent;
 
     @Schema(name = "menuRedirect", description = "重定向路径", type = "String")

@@ -1,7 +1,17 @@
 package github.aloofcoder.falsework.admin.controller;
 
 
+import github.aloofcoder.falsework.admin.pojo.dto.RoleDTO;
+import github.aloofcoder.falsework.admin.pojo.dto.RolePageDTO;
+import github.aloofcoder.falsework.admin.pojo.entity.RoleEntity;
+import github.aloofcoder.falsework.admin.pojo.vo.MenuListVO;
+import github.aloofcoder.falsework.admin.pojo.vo.RoleDetailVO;
 import github.aloofcoder.falsework.admin.pojo.vo.RoleListVO;
+import github.aloofcoder.falsework.admin.service.IMenuService;
+import github.aloofcoder.falsework.admin.service.IRoleMenuService;
+import github.aloofcoder.falsework.admin.service.IRoleService;
+import github.aloofcoder.falsework.common.util.PageResult;
+import github.aloofcoder.falsework.common.util.R;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -15,19 +25,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
-import github.aloofcoder.falsework.admin.pojo.entity.RoleEntity;
-import github.aloofcoder.falsework.common.util.PageResult;
-import github.aloofcoder.falsework.common.util.R;
-import github.aloofcoder.falsework.admin.service.IRoleService;
-import github.aloofcoder.falsework.admin.pojo.dto.RolePageDTO;
-import github.aloofcoder.falsework.admin.pojo.vo.RoleDetailVO;
-import github.aloofcoder.falsework.admin.pojo.dto.RoleDTO;
-
 import java.util.List;
 
 /**
- *
- *
  * @author hanle
  * @email hanl1946@163.com
  * @date 2020-08-14 01:30:55
@@ -38,7 +38,11 @@ import java.util.List;
 public class RoleController {
 
     @Autowired
-    private IRoleService  roleService;
+    private IRoleService roleService;
+    @Autowired
+    private IRoleMenuService roleMenuService;
+    @Autowired
+    private IMenuService menuService;
 
     @Operation(summary = "分页查询列表",
             responses = {
@@ -58,6 +62,16 @@ public class RoleController {
     public R findRoleList() {
         List<RoleListVO> list = roleService.findRoleList();
         return R.ok().put("data", list);
+    }
+
+    @Operation(summary = "查询角色授权菜单及全部菜单", parameters = {
+            @Parameter(name = "roleId", description = "roleId", required = true)
+    })
+    @GetMapping(value = "/menus/{roleId}")
+    public R findRoleMenus(@NotBlank(message = "不能为空") @PathVariable("roleId") Integer roleId) {
+        List<MenuListVO> roleMenus = menuService.findRoleMenuListByRoleId(roleId);
+        List<MenuListVO> menuList = menuService.findMenuList(true);
+        return R.ok().put("roleMenus", roleMenus).put("menuList", menuList);
     }
 
     @Operation(summary = "查询详情", parameters = {
@@ -94,7 +108,7 @@ public class RoleController {
     @DeleteMapping
     @ResponseStatus(HttpStatus.OK)
     public R delete(@RequestBody Integer[] roleIds) {
-            roleService.deleteRoles(roleIds);
+        roleService.deleteRoles(roleIds);
         return R.ok();
     }
 }

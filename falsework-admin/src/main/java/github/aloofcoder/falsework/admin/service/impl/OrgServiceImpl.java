@@ -14,6 +14,7 @@ import github.aloofcoder.falsework.admin.pojo.vo.OrgListVO;
 import github.aloofcoder.falsework.admin.pojo.vo.OrgTreeVO;
 import github.aloofcoder.falsework.admin.service.IOrgService;
 import github.aloofcoder.falsework.common.util.PageResult;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,9 +40,15 @@ public class OrgServiceImpl extends ServiceImpl<OrgDao, OrgEntity> implements IO
 
     @Override
     public PageResult queryOrgPage(OrgPageDTO pageDTO) {
+        QueryWrapper<OrgEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("parent_id", 0);
+        queryWrapper.orderByAsc("org_sort");
+        if (StringUtils.isNotBlank(pageDTO.getCondition())) {
+            queryWrapper.like("org_name", pageDTO.getCondition());
+        }
         IPage<OrgEntity> page = this.page(
                 new Page<>(pageDTO.getPage(), pageDTO.getLimit()),
-                new QueryWrapper<OrgEntity>());
+                queryWrapper);
         return new PageResult(page);
     }
 

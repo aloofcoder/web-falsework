@@ -13,6 +13,7 @@ import github.aloofcoder.falsework.admin.pojo.vo.RoleDetailVO;
 import github.aloofcoder.falsework.admin.pojo.vo.RoleListVO;
 import github.aloofcoder.falsework.admin.service.IRoleService;
 import github.aloofcoder.falsework.common.util.PageResult;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,9 +36,16 @@ public class RoleServiceImpl extends ServiceImpl<RoleDao, RoleEntity> implements
 
     @Override
     public PageResult queryRolePage(RolePageDTO pageDTO) {
+        QueryWrapper<RoleEntity> queryWrapper = new QueryWrapper<>();
+        if (StringUtils.isNotBlank(pageDTO.getCondition())) {
+            queryWrapper.like("role_name", pageDTO.getCondition())
+                    .or()
+                    .like("role_mark", pageDTO.getCondition());
+        }
+        queryWrapper.orderByAsc("role_sort");
         IPage<RoleEntity> page = this.page(
                 new Page<>(pageDTO.getPage(), pageDTO.getLimit()),
-                new QueryWrapper<RoleEntity>());
+                queryWrapper);
         return new PageResult(page);
     }
 
@@ -79,6 +87,8 @@ public class RoleServiceImpl extends ServiceImpl<RoleDao, RoleEntity> implements
 
     @Override
     public List<RoleListVO> findRoleList() {
+        QueryWrapper<RoleEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.orderByAsc("role_sort");
         List<RoleEntity> list = this.list();
         List<RoleListVO> roleList = new ArrayList<>();
         list.forEach(item -> {

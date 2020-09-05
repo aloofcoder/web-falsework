@@ -15,4 +15,5 @@ import github.aloofcoder.falsework.common.pojo.dto.PageDTO;
 @ParameterObject
 public class OrgPageDTO extends PageDTO {
 
+    private String condition;
 }
