@@ -1,6 +1,7 @@
 package github.aloofcoder.falsework.admin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import github.aloofcoder.falsework.admin.pojo.bo.UserAuthBO;
 import github.aloofcoder.falsework.admin.pojo.dto.UserDTO;
 import github.aloofcoder.falsework.admin.pojo.dto.UserPageDTO;
 import github.aloofcoder.falsework.admin.pojo.entity.UserEntity;
@@ -69,4 +70,12 @@ public interface IUserService extends IService<UserEntity> {
      * @param roleIds
      */
     void userRoleAssign(String userNum, Integer[] roleIds);
+
+    /**
+     * 通过用户登录名查询用户
+     *
+     * @param loginName
+     * @return
+     */
+    UserAuthBO findUserByLoginName(String loginName);
 }

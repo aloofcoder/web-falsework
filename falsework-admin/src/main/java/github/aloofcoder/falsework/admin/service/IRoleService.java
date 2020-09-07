@@ -61,4 +61,11 @@ public interface IRoleService extends IService<RoleEntity> {
      * @return
      */
     List<RoleListVO> findRoleList();
+
+    /**
+     * 角色进行授权菜单
+     * @param roleId
+     * @param menuIds
+     */
+    void roleAuthMenus(Integer roleId, Integer[] menuIds);
 }

@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,6 +32,7 @@ import github.aloofcoder.falsework.admin.pojo.dto.SettingDTO;
  */
 @RestController
 @RequestMapping("/settings")
+@SecurityRequirement(name = "Authorization")
 @Tag(name = "系统设置", description = "系统全局设置表前端控制器")
 public class SettingController {
 

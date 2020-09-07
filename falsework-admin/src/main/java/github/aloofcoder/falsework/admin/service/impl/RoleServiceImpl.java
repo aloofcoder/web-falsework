@@ -5,13 +5,17 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import github.aloofcoder.falsework.admin.config.BaseContextUtil;
 import github.aloofcoder.falsework.admin.dao.RoleDao;
 import github.aloofcoder.falsework.admin.pojo.dto.RoleDTO;
 import github.aloofcoder.falsework.admin.pojo.dto.RolePageDTO;
 import github.aloofcoder.falsework.admin.pojo.entity.RoleEntity;
+import github.aloofcoder.falsework.admin.pojo.entity.UserEntity;
 import github.aloofcoder.falsework.admin.pojo.vo.RoleDetailVO;
 import github.aloofcoder.falsework.admin.pojo.vo.RoleListVO;
+import github.aloofcoder.falsework.admin.service.IRoleMenuService;
 import github.aloofcoder.falsework.admin.service.IRoleService;
+import github.aloofcoder.falsework.common.util.AppException;
 import github.aloofcoder.falsework.common.util.PageResult;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -33,6 +37,8 @@ public class RoleServiceImpl extends ServiceImpl<RoleDao, RoleEntity> implements
 
     @Autowired
     private RoleDao roleDao;
+    @Autowired
+    private IRoleMenuService roleMenuService;
 
     @Override
     public PageResult queryRolePage(RolePageDTO pageDTO) {
@@ -63,20 +69,23 @@ public class RoleServiceImpl extends ServiceImpl<RoleDao, RoleEntity> implements
 
     @Override
     public void createRole(RoleDTO roleDTO) {
+        String loginNum = BaseContextUtil.getLoginNum();
         RoleEntity entity = new RoleEntity();
         BeanUtils.copyProperties(roleDTO, entity);
-        entity.setCreateBy("1");
-        entity.setEditBy("1");
+        entity.setCreateBy(loginNum);
+        entity.setEditBy(loginNum);
         this.save(entity);
     }
 
     @Override
     public void updateRole(Integer roleId, RoleDTO roleDTO) {
+        String loginNum = BaseContextUtil.getLoginNum();
         RoleEntity entity = this.getOne(new QueryWrapper<RoleEntity>().eq("role_id", roleId));
         if (Objects.isNull(entity)) {
             throw new IllegalArgumentException();
         }
         BeanUtils.copyProperties(roleDTO, entity);
+        entity.setEditBy(loginNum);
         update(entity, new UpdateWrapper<RoleEntity>().eq("role_id", roleId));
     }
 
@@ -97,5 +106,23 @@ public class RoleServiceImpl extends ServiceImpl<RoleDao, RoleEntity> implements
             roleList.add(vo);
         });
         return roleList;
+    }
+
+    @Override
+    public void roleAuthMenus(Integer roleId, Integer[] menuIds) {
+        RoleEntity entity = this.getOne(new QueryWrapper<RoleEntity>().eq("role_id", roleId));
+        if (Objects.isNull(entity)) {
+            throw new AppException("分配角色权限失败，无效的角色Id");
+        }
+        // 删除角色授权的菜单
+        boolean removeRoleMenuFlag = roleMenuService.removeByRoleId(roleId);
+        if (!removeRoleMenuFlag) {
+            throw new AppException("分配角色权限失败，请重试");
+        }
+        // 添加角色与菜单关系
+        boolean saveUserRoleFlag = roleMenuService.saveRoleMenus(roleId, menuIds);
+        if (!saveUserRoleFlag) {
+            throw new AppException("分配角色权限失败，请重试");
+        }
     }
 }

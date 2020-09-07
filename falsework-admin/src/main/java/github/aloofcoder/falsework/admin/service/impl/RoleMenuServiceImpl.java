@@ -5,18 +5,21 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import github.aloofcoder.falsework.admin.config.BaseContextUtil;
 import github.aloofcoder.falsework.admin.dao.RoleMenuDao;
 import github.aloofcoder.falsework.admin.pojo.dto.RoleMenuDTO;
 import github.aloofcoder.falsework.admin.pojo.dto.RoleMenuPageDTO;
 import github.aloofcoder.falsework.admin.pojo.entity.RoleMenuEntity;
-import github.aloofcoder.falsework.admin.pojo.vo.MenuListVO;
+import github.aloofcoder.falsework.admin.pojo.entity.UserRoleEntity;
 import github.aloofcoder.falsework.admin.pojo.vo.RoleMenuDetailVO;
 import github.aloofcoder.falsework.admin.service.IRoleMenuService;
+import github.aloofcoder.falsework.admin.service.IUserRoleService;
 import github.aloofcoder.falsework.common.util.PageResult;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -32,6 +35,8 @@ public class RoleMenuServiceImpl extends ServiceImpl<RoleMenuDao, RoleMenuEntity
 
     @Autowired
     private RoleMenuDao roleMenuDao;
+    @Autowired
+    private IUserRoleService userRoleService;
 
     @Override
     public PageResult queryRoleMenuPage(RoleMenuPageDTO pageDTO) {
@@ -77,9 +82,39 @@ public class RoleMenuServiceImpl extends ServiceImpl<RoleMenuDao, RoleMenuEntity
 
     @Override
     public List<Integer> findRoleAuthMenuIds() {
+        String loginNum = BaseContextUtil.getLoginNum();
+        List<String> loginRoles = BaseContextUtil.getLoginRoles();
         QueryWrapper<RoleMenuEntity> queryWrapper = new QueryWrapper<>();
-        // TODO - 添加角色条件
+        List<UserRoleEntity> userRoleList = userRoleService.findUserRolesByUserNum(loginNum);
+        List<Integer> roleIds = userRoleList.stream().map(UserRoleEntity::getRoleId).collect(Collectors.toList());
+        if (roleIds.size() <= 0) {
+            return new ArrayList<>();
+        }
+        queryWrapper.in("role_id", roleIds);
         List<Integer> menuIds = this.list(queryWrapper).stream().map(RoleMenuEntity::getMenuId).collect(Collectors.toList());
         return menuIds;
+    }
+
+    @Override
+    public boolean removeByRoleId(Integer roleId) {
+        QueryWrapper<RoleMenuEntity> queryWrapper = new QueryWrapper<RoleMenuEntity>();
+        queryWrapper.eq("role_id", roleId);
+        List<RoleMenuEntity> list = this.list(queryWrapper);
+        if (list.size() <= 0) {
+            return true;
+        }
+        return this.remove(queryWrapper);
+    }
+
+    @Override
+    public boolean saveRoleMenus(Integer roleId, Integer[] menuIds) {
+        List<RoleMenuEntity> roleMenuList = new ArrayList<>();
+        Arrays.asList(menuIds).stream().forEach(item -> {
+            RoleMenuEntity entity = new RoleMenuEntity();
+            entity.setRoleId(roleId);
+            entity.setMenuId(item);
+            roleMenuList.add(entity);
+        });
+        return this.saveBatch(roleMenuList);
     }
 }

@@ -18,6 +18,7 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,6 +35,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/roles")
+@SecurityRequirement(name = "Authorization")
 @Tag(name = "用户角色", description = "前端控制器")
 public class RoleController {
 
@@ -72,6 +74,17 @@ public class RoleController {
         List<MenuListVO> roleMenus = menuService.findRoleMenuListByRoleId(roleId);
         List<MenuListVO> menuList = menuService.findMenuList(true);
         return R.ok().put("roleMenus", roleMenus).put("menuList", menuList);
+    }
+
+    @Operation(summary = "角色授权菜单", parameters = {
+            @Parameter(name = "roleId", description = "roleId", required = true, in = ParameterIn.PATH),
+            @Parameter(name = "menuIds", description = "菜单列表", required = true, in = ParameterIn.DEFAULT),
+    })
+    @PostMapping(value = "/menus/{roleId}")
+    public R roleAuthMenus(@NotBlank(message = "不能为空") @PathVariable("roleId") Integer roleId,
+                           @RequestBody Integer[] menuIds) {
+        roleService.roleAuthMenus(roleId, menuIds);
+        return R.ok();
     }
 
     @Operation(summary = "查询详情", parameters = {

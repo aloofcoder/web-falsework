@@ -89,5 +89,11 @@ public interface IMenuService extends IService<MenuEntity> {
      */
     List<MenuAuthListVO> findAuthMenu();
 
+    /**
+     * 通过角色Id 查询角色授权菜单
+     *
+     * @param roleId
+     * @return
+     */
     List<MenuListVO> findRoleMenuListByRoleId(Integer roleId);
 }

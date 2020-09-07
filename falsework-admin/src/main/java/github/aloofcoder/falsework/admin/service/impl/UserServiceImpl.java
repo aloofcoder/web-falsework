@@ -5,7 +5,9 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import github.aloofcoder.falsework.admin.config.BaseContextUtil;
 import github.aloofcoder.falsework.admin.dao.UserDao;
+import github.aloofcoder.falsework.admin.pojo.bo.UserAuthBO;
 import github.aloofcoder.falsework.admin.pojo.dto.UserDTO;
 import github.aloofcoder.falsework.admin.pojo.dto.UserPageDTO;
 import github.aloofcoder.falsework.admin.pojo.entity.OrgEntity;
@@ -14,16 +16,14 @@ import github.aloofcoder.falsework.admin.pojo.entity.UserEntity;
 import github.aloofcoder.falsework.admin.pojo.entity.UserRoleEntity;
 import github.aloofcoder.falsework.admin.pojo.vo.UserDetailVO;
 import github.aloofcoder.falsework.admin.pojo.vo.UserPageVO;
-import github.aloofcoder.falsework.admin.service.IOrgService;
-import github.aloofcoder.falsework.admin.service.IOrgUserService;
-import github.aloofcoder.falsework.admin.service.IUserRoleService;
-import github.aloofcoder.falsework.admin.service.IUserService;
+import github.aloofcoder.falsework.admin.service.*;
 import github.aloofcoder.falsework.common.util.AppException;
 import github.aloofcoder.falsework.common.util.PageResult;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,6 +48,8 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
     private IOrgUserService orgUserService;
     @Autowired
     private IUserRoleService userRoleService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public PageResult queryUserPage(UserPageDTO pageDTO) {
@@ -97,6 +99,7 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void createUser(UserDTO userDTO) {
+        String loginNum = BaseContextUtil.getLoginNum();
         Integer orgId = userDTO.getOrgId();
         OrgEntity orgEntity = orgService.findOrgByOrgId(orgId);
         if (Objects.isNull(orgEntity)) {
@@ -106,8 +109,9 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
         BeanUtils.copyProperties(userDTO, entity);
         String userNum = RandomUtils.nextLong(1000000000L, 9999999999L) + "";
         entity.setUserNum(userNum);
-        entity.setCreateBy("1");
-        entity.setEditBy("1");
+        entity.setLoginPwd(passwordEncoder.encode(entity.getLoginPwd()));
+        entity.setCreateBy(loginNum);
+        entity.setEditBy(loginNum);
         boolean addUserFlag = this.save(entity);
         if (!addUserFlag) {
             throw new AppException("添加用户失败，请重试");
@@ -122,6 +126,7 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void updateUser(String userNum, UserDTO userDTO) {
+        String loginNum = BaseContextUtil.getLoginNum();
         Integer orgId = userDTO.getOrgId();
         OrgEntity orgEntity = orgService.findOrgByOrgId(orgId);
         if (Objects.isNull(orgEntity)) {
@@ -132,6 +137,7 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
             throw new AppException("修改用户失败，无效的用户编号");
         }
         BeanUtils.copyProperties(userDTO, entity);
+        entity.setEditBy(loginNum);
         boolean editUserFlag = update(entity, new UpdateWrapper<UserEntity>().eq("user_num", userNum));
         if (!editUserFlag) {
             throw new AppException("修改用户失败，请重试");
@@ -177,7 +183,7 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
 
     @Override
     public List<Integer> findUserRoles(String userNum) {
-        List<UserRoleEntity> roleUsers = userRoleService.findUserRolesByUserNums(userNum);
+        List<UserRoleEntity> roleUsers = userRoleService.findUserRolesByUserNum(userNum);
         if (Objects.isNull(roleUsers) || roleUsers.size() <= 0) {
             return null;
         }
@@ -202,5 +208,20 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
         if (!saveUserRoleFlag) {
             throw new AppException("分配用户角色失败，请重试");
         }
+    }
+
+    @Override
+    public UserAuthBO findUserByLoginName(String loginName) {
+        UserEntity entity = this.getOne(new QueryWrapper<UserEntity>().eq("login_name", loginName));
+        if (Objects.isNull(entity)) {
+            return null;
+        }
+        UserAuthBO bo = new UserAuthBO();
+        bo.setUserNum(entity.getUserNum());
+        bo.setLoginName(entity.getLoginName());
+        bo.setLoginPwd(entity.getLoginPwd());
+        List<String> roles = userRoleService.findUserRoleMarksByUserNum(entity.getUserNum());
+        bo.setRoles(roles);
+        return bo;
     }
 }

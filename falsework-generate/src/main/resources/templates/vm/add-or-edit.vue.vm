@@ -1,5 +1,10 @@
 <template>
-    <el-dialog :title="title()" :visible.sync="visibvle" width="500px" @close="handleCancel">
+    <el-dialog
+        :title="title()"
+        :close-on-click-modal="false"
+        :visible.sync="visibvle"
+        width="500px"
+        @close="handleCancel">
         <el-form :model="form" :rules="${classname}Rules" ref="${classname}Form" v-loading="loading">
             #foreach ($column in $columns)
                 #if($column.attrname != $pk.attrname && $column.attrname != "createTime" && $column.attrname != "editTime" && $column.attrname != "createBy"  && $column.attrname != "editBy")

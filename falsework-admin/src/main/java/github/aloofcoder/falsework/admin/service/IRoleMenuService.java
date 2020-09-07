@@ -61,4 +61,21 @@ public interface IRoleMenuService extends IService<RoleMenuEntity> {
      * @return
      */
     List<Integer> findRoleAuthMenuIds();
+
+    /**
+     * 移除角色授权的菜单
+     *
+     * @param roleId
+     * @return
+     */
+    boolean removeByRoleId(Integer roleId);
+
+    /**
+     * 保存角色与菜单关系
+     *
+     * @param roleId
+     * @param menuIds
+     * @return
+     */
+    boolean saveRoleMenus(Integer roleId, Integer[] menuIds);
 }

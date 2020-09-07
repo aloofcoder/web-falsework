@@ -60,7 +60,7 @@ public interface IUserRoleService extends IService<UserRoleEntity> {
      * @param userNum
      * @return
      */
-    List<UserRoleEntity> findUserRolesByUserNums(String userNum);
+    List<UserRoleEntity> findUserRolesByUserNum(String userNum);
 
     /**
      * 通过用户编号组删除用户与角色关系
@@ -86,4 +86,7 @@ public interface IUserRoleService extends IService<UserRoleEntity> {
      * @return
      */
     boolean saveUserRoles(String userNum, Integer[] roleIds);
+
+
+    List<String> findUserRoleMarksByUserNum(String userNum);
 }

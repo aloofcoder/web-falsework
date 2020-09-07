@@ -30,3 +30,10 @@ springdoc:
   swagger-ui:
     # 配置不展开文档
     doc-expansion: 'none'
+
+# JWT 配置
+jwt:
+  # 密匙key
+  secret: WebFlaseWork
+  # 过期时间   单位秒 1小时 3600
+  expiration: 3600
