@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import github.aloofcoder.falsework.admin.config.BaseContextUtil;
 import github.aloofcoder.falsework.admin.dao.MenuDao;
 import github.aloofcoder.falsework.admin.pojo.dto.MenuDTO;
 import github.aloofcoder.falsework.admin.pojo.dto.MenuPageDTO;
@@ -65,20 +66,23 @@ public class MenuServiceImpl extends ServiceImpl<MenuDao, MenuEntity> implements
 
     @Override
     public void createMenu(MenuDTO menuDTO) {
+        String loginNum = BaseContextUtil.getLoginNum();
         MenuEntity entity = new MenuEntity();
         BeanUtils.copyProperties(menuDTO, entity);
-        entity.setCreateBy("1");
-        entity.setEditBy("1");
+        entity.setCreateBy(loginNum);
+        entity.setEditBy(loginNum);
         this.save(entity);
     }
 
     @Override
     public void updateMenu(Integer id, MenuDTO menuDTO) {
+        String loginNum = BaseContextUtil.getLoginNum();
         MenuEntity entity = this.getOne(new QueryWrapper<MenuEntity>().eq("id", id));
         if (Objects.isNull(entity)) {
             throw new IllegalArgumentException();
         }
         BeanUtils.copyProperties(menuDTO, entity);
+        entity.setEditBy(loginNum);
         update(entity, new UpdateWrapper<MenuEntity>().eq("id", id));
     }
 
@@ -119,8 +123,13 @@ public class MenuServiceImpl extends ServiceImpl<MenuDao, MenuEntity> implements
     @Override
     public List<MenuEntity> findAuth() {
         List<Integer> authMenuIds = roleMenuService.findRoleAuthMenuIds();
+        if (authMenuIds.size() == 0) {
+            return new ArrayList<>();
+        }
         QueryWrapper<MenuEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("menu_class", 3).eq("status", 1).in("id", authMenuIds);
+        queryWrapper.eq("menu_class", 3)
+                .eq("status", 1)
+                .in("id", authMenuIds);
         List<MenuEntity> menuList = this.list(queryWrapper);
         return menuList;
     }

@@ -8,8 +8,10 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import github.aloofcoder.falsework.admin.dao.UserRoleDao;
 import github.aloofcoder.falsework.admin.pojo.dto.UserRoleDTO;
 import github.aloofcoder.falsework.admin.pojo.dto.UserRolePageDTO;
+import github.aloofcoder.falsework.admin.pojo.entity.RoleEntity;
 import github.aloofcoder.falsework.admin.pojo.entity.UserRoleEntity;
 import github.aloofcoder.falsework.admin.pojo.vo.UserRoleDetailVO;
+import github.aloofcoder.falsework.admin.service.IRoleService;
 import github.aloofcoder.falsework.admin.service.IUserRoleService;
 import github.aloofcoder.falsework.common.util.PageResult;
 import org.springframework.beans.BeanUtils;
@@ -20,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * @author hanle
@@ -31,6 +34,8 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleDao, UserRoleEntity
 
     @Autowired
     private UserRoleDao userRoleDao;
+    @Autowired
+    private IRoleService roleService;
 
     @Override
     public PageResult queryUserRolePage(UserRolePageDTO pageDTO) {
@@ -75,7 +80,7 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleDao, UserRoleEntity
     }
 
     @Override
-    public List<UserRoleEntity> findUserRolesByUserNums(String userNum) {
+    public List<UserRoleEntity> findUserRolesByUserNum(String userNum) {
         return this.list(new QueryWrapper<UserRoleEntity>().eq("user_num", userNum));
     }
 
@@ -111,4 +116,18 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleDao, UserRoleEntity
         });
         return this.saveBatch(userRoleList);
     }
+
+    @Override
+    public List<String> findUserRoleMarksByUserNum(String userNum) {
+        List<UserRoleEntity> userRoles = this.list(new QueryWrapper<UserRoleEntity>().eq("user_num", userNum));
+        List<Integer> roleIds = userRoles.stream().map(UserRoleEntity::getRoleId).collect(Collectors.toList());
+        if (roleIds.size() <= 0) {
+            return new ArrayList<>();
+        }
+        QueryWrapper<RoleEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("role_id", roleIds);
+        List<String> roles = roleService.list(queryWrapper).stream().map(RoleEntity::getRoleMark).collect(Collectors.toList());
+        return roles;
+    }
+
 }

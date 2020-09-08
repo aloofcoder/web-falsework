@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import github.aloofcoder.falsework.admin.config.BaseContextUtil;
 import github.aloofcoder.falsework.admin.dao.OrgDao;
 import github.aloofcoder.falsework.admin.pojo.dto.OrgDTO;
 import github.aloofcoder.falsework.admin.pojo.dto.OrgPageDTO;
@@ -66,20 +67,23 @@ public class OrgServiceImpl extends ServiceImpl<OrgDao, OrgEntity> implements IO
 
     @Override
     public void createOrg(OrgDTO orgDTO) {
+        String loginNum = BaseContextUtil.getLoginNum();
         OrgEntity entity = new OrgEntity();
         BeanUtils.copyProperties(orgDTO, entity);
-        entity.setCreateBy("1");
-        entity.setEditBy("1");
+        entity.setCreateBy(loginNum);
+        entity.setEditBy(loginNum);
         this.save(entity);
     }
 
     @Override
     public void updateOrg(Integer id, OrgDTO orgDTO) {
+        String loginNum = BaseContextUtil.getLoginNum();
         OrgEntity entity = this.getOne(new QueryWrapper<OrgEntity>().eq("id", id));
         if (Objects.isNull(entity)) {
             throw new IllegalArgumentException();
         }
         BeanUtils.copyProperties(orgDTO, entity);
+        entity.setEditBy(loginNum);
         update(entity, new UpdateWrapper<OrgEntity>().eq("id", id));
     }
 

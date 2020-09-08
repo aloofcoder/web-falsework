@@ -1,6 +1,7 @@
 package github.aloofcoder.falsework.admin.controller;
 
 
+import github.aloofcoder.falsework.admin.config.BaseContextUtil;
 import github.aloofcoder.falsework.admin.pojo.dto.UserDTO;
 import github.aloofcoder.falsework.admin.pojo.dto.UserPageDTO;
 import github.aloofcoder.falsework.admin.pojo.entity.MenuEntity;
@@ -19,6 +20,7 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,6 +40,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/users")
+@SecurityRequirement(name = "Authorization")
 @Tag(name = "系统用户", description = "前端控制器")
 public class UserController {
 
@@ -48,30 +51,16 @@ public class UserController {
     @Autowired
     private IMenuService menuService;
 
-    @PostMapping("/login")
-    public R login() {
-        Map<String, String> token = new HashMap<>(1);
-        token.put("token", "admin-token");
-        return R.ok().put("data", token);
-    }
-
     @GetMapping("/info")
     public R info() {
+        String loginNum = BaseContextUtil.getLoginNum();
+        UserDetailVO userDetailVO = userService.findUserDetail(loginNum);
         Map<String, Object> info = new HashMap<>(4);
-        List<String> roles = new ArrayList<>();
-        roles.add("admin");
-        info.put("roles", roles);
-        info.put("introduction", "I am a super administrator");
         info.put("avatar", "https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif");
-        info.put("name", "Super Admin");
+        info.put("name", userDetailVO.getUserName());
         List<MenuEntity> auths = menuService.findAuth();
         List<MenuAuthListVO> menuList = menuService.findAuthMenu();
         return R.ok().put("data", info).put("auths", auths).put("menus", menuList);
-    }
-
-    @PostMapping("/logout")
-    public R logout() {
-        return R.ok();
     }
 
     @Operation(summary = "分页查询列表",
