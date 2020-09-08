@@ -6,7 +6,6 @@ import github.aloofcoder.falsework.admin.pojo.dto.UserPageDTO;
 import github.aloofcoder.falsework.admin.pojo.entity.MenuEntity;
 import github.aloofcoder.falsework.admin.pojo.entity.UserEntity;
 import github.aloofcoder.falsework.admin.pojo.vo.MenuAuthListVO;
-import github.aloofcoder.falsework.admin.pojo.vo.MenuListVO;
 import github.aloofcoder.falsework.admin.pojo.vo.RoleListVO;
 import github.aloofcoder.falsework.admin.pojo.vo.UserDetailVO;
 import github.aloofcoder.falsework.admin.service.IMenuService;
@@ -89,7 +88,7 @@ public class UserController {
             @Parameter(name = "userNum", description = "用户编号", required = true)
     })
     @GetMapping(value = "/{userNum}")
-    public R findUserDetail(@NotBlank(message = "不能为空") @PathVariable("userNum") String userNum) {
+    public R findUserDetail(@NotBlank(message = "用户编号不能为空") @PathVariable("userNum") String userNum) {
         UserDetailVO vo = userService.findUserDetail(userNum);
         return R.ok().put("data", vo);
     }

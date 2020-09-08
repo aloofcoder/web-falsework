@@ -6,10 +6,7 @@ import github.aloofcoder.falsework.admin.validate.ValidPhoneNum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
+import javax.validation.constraints.*;
 import java.util.Date;
 
 /**
@@ -22,13 +19,16 @@ import java.util.Date;
 public class UserDTO {
 
     @NotBlank(message = "用户姓名不能为空")
+    @Size(min = 1, max = 20, message = "用户姓名太长")
     @Schema(name = "userName", description = "姓名", type = "String")
     private String userName;
 
     @NotBlank(message = "用户登录名不能为空")
+    @Size(min = 1, max = 20, message = "登录名太长")
     @Schema(name = "loginName", description = "登录名", type = "String")
     private String loginName;
 
+    @Size(min = 6, max = 16, message = "登录密码必须在6-16位之间")
     @Schema(name = "loginPwd", description = "登录密码", type = "String")
     private String loginPwd;
 
@@ -37,6 +37,7 @@ public class UserDTO {
     @Schema(name = "phoneNum", description = "手机号", type = "String")
     private String phoneNum;
 
+    @Size(min = 1, max = 50, message = "邮箱地址太长")
     @ValidEmail(message = "无效的邮箱地址")
     @Schema(name = "userEmail", description = "邮箱", type = "String")
     private String userEmail;
