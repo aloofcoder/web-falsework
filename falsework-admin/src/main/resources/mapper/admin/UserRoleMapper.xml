@@ -12,5 +12,20 @@
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
     id, role_id, user_num    </sql>
+    <select id="findUserRoleNamesByUserNums" resultType="map">
+        SELECT
+        ur.user_num userNum,
+        GROUP_CONCAT(r.role_name) roles
+        FROM
+            sys_user_role ur
+            LEFT JOIN sys_role r ON ur.role_id = r.role_id
+        WHERE
+            ur.user_num IN
+            <foreach collection="userNums" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        GROUP BY
+            ur.user_num
+    </select>
 
 </mapper>

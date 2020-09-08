@@ -16,7 +16,10 @@ import github.aloofcoder.falsework.admin.pojo.entity.UserEntity;
 import github.aloofcoder.falsework.admin.pojo.entity.UserRoleEntity;
 import github.aloofcoder.falsework.admin.pojo.vo.UserDetailVO;
 import github.aloofcoder.falsework.admin.pojo.vo.UserPageVO;
-import github.aloofcoder.falsework.admin.service.*;
+import github.aloofcoder.falsework.admin.service.IOrgService;
+import github.aloofcoder.falsework.admin.service.IOrgUserService;
+import github.aloofcoder.falsework.admin.service.IUserRoleService;
+import github.aloofcoder.falsework.admin.service.IUserService;
 import github.aloofcoder.falsework.common.util.AppException;
 import github.aloofcoder.falsework.common.util.ErrorCode;
 import github.aloofcoder.falsework.common.util.PageResult;
@@ -30,6 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -70,9 +74,14 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
                 new Page<>(pageDTO.getPage(), pageDTO.getLimit()),
                 wrapper);
         List<UserPageVO> userList = new ArrayList<>();
+        List<String> userNums = page.getRecords().stream().map(UserEntity::getUserNum).collect(Collectors.toList());
+        List<Map<String, String>> userRoleNames = userRoleService.findUserRoleNamesByUserNums(userNums);
+        Map<String, String> roleNameMap = userRoleNames.stream().collect(Collectors.toMap(x -> x.get("userNum"), y -> y.get("roles")));
         page.getRecords().stream().forEach(item -> {
             UserPageVO vo = new UserPageVO();
             BeanUtils.copyProperties(item, vo);
+            String roles = roleNameMap.get(item.getUserNum());
+            vo.setRoles(roles);
             userList.add(vo);
         });
         PageResult pageResult = new PageResult(page);

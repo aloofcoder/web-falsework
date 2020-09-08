@@ -33,4 +33,7 @@ public class UserPageVO {
 
     @Schema(name = "status", description = "状态（1正常）", type = "Integer")
     private Integer status;
+
+    @Schema(name = "roles", description = "角色列表", type = "String")
+    private String roles;
 }

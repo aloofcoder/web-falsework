@@ -8,6 +8,7 @@ import github.aloofcoder.falsework.admin.pojo.vo.UserRoleDetailVO;
 import github.aloofcoder.falsework.common.util.PageResult;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author hanle
@@ -103,4 +104,12 @@ public interface IUserRoleService extends IService<UserRoleEntity> {
      * @return
      */
     List<UserRoleEntity> findUserRolesByRoleIds(List<Integer> asList);
+
+    /**
+     * 查询用户角色
+     *
+     * @param userNums
+     * @return
+     */
+    List<Map<String, String>> findUserRoleNamesByUserNums(List<String> userNums);
 }

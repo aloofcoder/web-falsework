@@ -18,10 +18,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -139,6 +136,11 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleDao, UserRoleEntity
         queryWrapper.in("role_id", roleIds);
         List<UserRoleEntity> list = this.list(queryWrapper);
         return list;
+    }
+
+    @Override
+    public List<Map<String, String>> findUserRoleNamesByUserNums(List<String> userNums) {
+        return userRoleDao.findUserRoleNamesByUserNums(userNums);
     }
 
 }
