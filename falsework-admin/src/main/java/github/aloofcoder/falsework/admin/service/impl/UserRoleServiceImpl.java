@@ -125,13 +125,16 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleDao, UserRoleEntity
             return new ArrayList<>();
         }
         QueryWrapper<RoleEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("role_id", roleIds);
+        queryWrapper.in("role_id", roleIds);
         List<String> roles = roleService.list(queryWrapper).stream().map(RoleEntity::getRoleMark).collect(Collectors.toList());
         return roles;
     }
 
     @Override
     public List<UserRoleEntity> findUserRolesByRoleIds(List<Integer> roleIds) {
+        if (roleIds.size() == 0) {
+            return new ArrayList<>();
+        }
         QueryWrapper<UserRoleEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.in("role_id", roleIds);
         List<UserRoleEntity> list = this.list(queryWrapper);

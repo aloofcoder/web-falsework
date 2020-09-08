@@ -120,6 +120,9 @@ public class RoleMenuServiceImpl extends ServiceImpl<RoleMenuDao, RoleMenuEntity
 
     @Override
     public boolean removeByRoleIds(List<Integer> roleIds) {
+        if (roleIds.size() == 0) {
+            return false;
+        }
         QueryWrapper<RoleMenuEntity> queryWrapper = new QueryWrapper<RoleMenuEntity>();
         queryWrapper.in("role_id", roleIds);
         List<RoleMenuEntity> list = this.list(queryWrapper);
@@ -131,6 +134,9 @@ public class RoleMenuServiceImpl extends ServiceImpl<RoleMenuDao, RoleMenuEntity
 
     @Override
     public List<RoleMenuEntity> findRoleMenuByMenuIds(List<Integer> menuIds) {
+        if (menuIds.size() == 0) {
+            return new ArrayList<>();
+        }
         List<RoleMenuEntity> list = this.list(new QueryWrapper<RoleMenuEntity>().in("menu_id", menuIds));
         return list;
     }

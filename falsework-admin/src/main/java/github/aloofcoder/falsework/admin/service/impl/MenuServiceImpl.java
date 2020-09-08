@@ -197,6 +197,9 @@ public class MenuServiceImpl extends ServiceImpl<MenuDao, MenuEntity> implements
     @Override
     public List<MenuAuthListVO> findAuthMenu() {
         List<Integer> authMenuIds = roleMenuService.findRoleAuthMenuIds();
+        if (authMenuIds.size() == 0) {
+            return new ArrayList<>();
+        }
         QueryWrapper<MenuEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.ne("menu_class", 3)
                 .eq("status", 1)

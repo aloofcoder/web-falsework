@@ -56,6 +56,9 @@ public class LoginController {
         }
         final UserDetails userDetails = userDetailsService
                 .loadUserByUsername(authenticationRequest.getUsername());
+        if (userDetails.getAuthorities().size() == 0) {
+            throw new AppException(ErrorCode.USER_ROLE_INVALID);
+        }
         final String token = jwtTokenUtil.generateToken(userDetails);
         return R.ok().put("token", token);
     }

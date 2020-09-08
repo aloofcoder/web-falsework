@@ -5,6 +5,8 @@ import github.aloofcoder.falsework.admin.dao.UserDao;
 import github.aloofcoder.falsework.admin.pojo.bo.UserAuthBO;
 import github.aloofcoder.falsework.admin.pojo.entity.UserEntity;
 import github.aloofcoder.falsework.admin.service.IUserService;
+import github.aloofcoder.falsework.common.util.AppException;
+import github.aloofcoder.falsework.common.util.ErrorCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
