@@ -104,4 +104,10 @@ public class OrgUserServiceImpl extends ServiceImpl<OrgUserDao, OrgUserEntity> i
         }
         return this.remove(queryWrapper);
     }
+
+    @Override
+    public List<OrgUserEntity> findOrgUserByRoleIds(List<Integer> orgIds) {
+        List<OrgUserEntity> list = this.list(new QueryWrapper<OrgUserEntity>().in("org_id", orgIds));
+        return list;
+    }
 }

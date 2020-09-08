@@ -12,18 +12,10 @@ public class R extends HashMap<String, Object> {
     private static final long serialVersionUID = 1L;
 
     public R() {
-        put("code", 0);
+        put("code", ErrorCode.OK.getCode());
     }
 
-    public static R error() {
-        return error(500, "未知异常，请联系管理员");
-    }
-
-    public static R error(String msg) {
-        return error(500, msg);
-    }
-
-    public static R error(int code, String msg) {
+    public static R error(String code, String msg) {
         R r = new R();
         r.put("code", code);
         r.put("msg", msg);

@@ -2,6 +2,7 @@ package github.aloofcoder.falsework.admin.pojo.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -32,6 +33,7 @@ public class RoleDTO {
     private String roleDesc;
 
     @NotNull(message = "排序号不能为空")
+    @Range(min = 0, message = "显示排序号必须大于等于0")
     @Schema(name = "roleSort", description = "排序号", type = "Integer")
     private Integer roleSort;
 

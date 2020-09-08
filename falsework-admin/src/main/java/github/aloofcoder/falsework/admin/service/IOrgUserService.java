@@ -7,6 +7,8 @@ import github.aloofcoder.falsework.admin.pojo.entity.OrgUserEntity;
 import github.aloofcoder.falsework.admin.pojo.vo.OrgUserDetailVO;
 import github.aloofcoder.falsework.common.util.PageResult;
 
+import java.util.List;
+
 /**
  * @author hanle
  * @email hanl1946@163.com
@@ -79,8 +81,18 @@ public interface IOrgUserService extends IService<OrgUserEntity> {
 
     /**
      * 通过用户编号组删除用户与组织关系
+     *
      * @param userNums
      * @return
      */
     boolean removeByUserNums(String[] userNums);
+
+    /**
+     * 通过组织Id列表查询组织下的用户
+     *
+     * @param orgIds
+     * @return
+     */
+    List<OrgUserEntity> findOrgUserByRoleIds(List<Integer> orgIds);
+
 }

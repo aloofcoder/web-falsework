@@ -10,10 +10,14 @@ import github.aloofcoder.falsework.admin.dao.OrgDao;
 import github.aloofcoder.falsework.admin.pojo.dto.OrgDTO;
 import github.aloofcoder.falsework.admin.pojo.dto.OrgPageDTO;
 import github.aloofcoder.falsework.admin.pojo.entity.OrgEntity;
+import github.aloofcoder.falsework.admin.pojo.entity.OrgUserEntity;
 import github.aloofcoder.falsework.admin.pojo.vo.OrgDetailVO;
 import github.aloofcoder.falsework.admin.pojo.vo.OrgListVO;
 import github.aloofcoder.falsework.admin.pojo.vo.OrgTreeVO;
 import github.aloofcoder.falsework.admin.service.IOrgService;
+import github.aloofcoder.falsework.admin.service.IOrgUserService;
+import github.aloofcoder.falsework.common.util.AppException;
+import github.aloofcoder.falsework.common.util.ErrorCode;
 import github.aloofcoder.falsework.common.util.PageResult;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -38,6 +42,8 @@ public class OrgServiceImpl extends ServiceImpl<OrgDao, OrgEntity> implements IO
 
     @Autowired
     private OrgDao orgDao;
+    @Autowired
+    private IOrgUserService orgUserService;
 
     @Override
     public PageResult queryOrgPage(OrgPageDTO pageDTO) {
@@ -67,29 +73,55 @@ public class OrgServiceImpl extends ServiceImpl<OrgDao, OrgEntity> implements IO
 
     @Override
     public void createOrg(OrgDTO orgDTO) {
+        // 验证组织名称是否重复
+        OrgEntity orgNameEntity = getByOrgName(orgDTO.getOrgName());
+        if (Objects.nonNull(orgNameEntity)) {
+            throw new AppException(ErrorCode.ORG_NAME_REPEAT);
+        }
         String loginNum = BaseContextUtil.getLoginNum();
         OrgEntity entity = new OrgEntity();
         BeanUtils.copyProperties(orgDTO, entity);
         entity.setCreateBy(loginNum);
         entity.setEditBy(loginNum);
-        this.save(entity);
+        boolean saveOrgFlag = this.save(entity);
+        if (!saveOrgFlag) {
+            throw new AppException(ErrorCode.DB_REQ_ERR);
+        }
     }
 
     @Override
     public void updateOrg(Integer id, OrgDTO orgDTO) {
+        // 验证组织名称是否重复
+        OrgEntity orgNameEntity = getByOrgName(orgDTO.getOrgName());
+        if (Objects.nonNull(orgNameEntity) && !id.equals(orgNameEntity.getId())) {
+            throw new AppException(ErrorCode.ORG_NAME_REPEAT);
+        }
         String loginNum = BaseContextUtil.getLoginNum();
         OrgEntity entity = this.getOne(new QueryWrapper<OrgEntity>().eq("id", id));
         if (Objects.isNull(entity)) {
-            throw new IllegalArgumentException();
+            throw new AppException(ErrorCode.ORG_ID_INVALID);
         }
         BeanUtils.copyProperties(orgDTO, entity);
         entity.setEditBy(loginNum);
-        update(entity, new UpdateWrapper<OrgEntity>().eq("id", id));
+        boolean updateOrgFlag = update(entity, new UpdateWrapper<OrgEntity>().eq("id", id));
+        if (!updateOrgFlag) {
+            throw new AppException(ErrorCode.DB_REQ_ERR);
+        }
     }
 
     @Override
     public void deleteOrgs(Integer[] ids) {
-        this.removeByIds(Arrays.asList(ids));
+        List<OrgUserEntity> orgUserList = orgUserService.findOrgUserByRoleIds(Arrays.asList(ids));
+        if (orgUserList.size() > 0) {
+            List<Integer> orgIds = orgUserList.stream().map(OrgUserEntity::getOrgId).collect(Collectors.toList());
+            String orgNames = this.list(new QueryWrapper<OrgEntity>().in("id", orgIds))
+                    .stream().map(OrgEntity::getOrgName).collect(Collectors.joining());
+            throw new AppException(ErrorCode.ORG_USED.getCode(), String.format("删除组织【%1$s】失败，", orgNames) + ErrorCode.ORG_USED.getMsg());
+        }
+        boolean removeOrgFlag = this.removeByIds(Arrays.asList(ids));
+        if (!removeOrgFlag) {
+            throw new AppException(ErrorCode.DB_REQ_ERR);
+        }
     }
 
     @Override
@@ -132,5 +164,21 @@ public class OrgServiceImpl extends ServiceImpl<OrgDao, OrgEntity> implements IO
             });
         });
         return trees;
+    }
+
+    /**
+     * 通过组织名获取组织
+     *
+     * @param orgName
+     * @return
+     */
+    private OrgEntity getByOrgName(String orgName) {
+        QueryWrapper<OrgEntity> orgNameWrapper = new QueryWrapper<>();
+        orgNameWrapper.eq("org_name", orgName);
+        OrgEntity entity = getOne(orgNameWrapper);
+        if (Objects.nonNull(entity)) {
+            return entity;
+        }
+        return null;
     }
 }

@@ -1,49 +1,64 @@
 package github.aloofcoder.falsework.common.util;
 
+import lombok.Getter;
+
 /**
  * @author hanle
  */
+@Getter
 public class AppException extends RuntimeException {
 
-    private int code = 500;
+    private String code;
+
     private String msg;
 
-    public AppException(String msg) {
-        super(msg);
-        this.msg = msg;
+    public AppException() {
+        super();
     }
+
+//    public AppException(String message) {
+//        super(message);
+//        this.msg = message;
+//    }
 
     public AppException(String message, Throwable cause) {
         super(message, cause);
         this.msg = message;
     }
 
-    public AppException(int code, String msg) {
-        super(msg);
+    public AppException(String code, String message) {
+        super(message);
         this.code = code;
-        this.msg = msg;
+        this.msg = message;
     }
 
-    public AppException(int code, String msg, Throwable cause) {
-        super(msg, cause);
+    public AppException(String code, String message, Throwable cause) {
+        super(message, cause);
         this.code = code;
-        this.msg = msg;
+        this.msg = message;
     }
 
-    public int getCode() {
-        return code;
+    public AppException(ErrorCode error, Throwable cause) {
+        super(error.getMsg(), cause);
+        this.code = error.getCode();
+        this.msg = error.getMsg();
     }
 
-    public void setCode(int code) {
-        this.code = code;
+    public AppException(ErrorCode error) {
+        super(error.getMsg());
+        this.code = error.getCode();
+        this.msg = error.getMsg();
     }
 
-    public String getMsg() {
-        return msg;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
+    /**
+     * 解决lambda表达式里不能抛出受检异常的问题
+     *
+     * @param code
+     * @param message
+     * @throws <E>
+     */
+    public static <E extends Exception> void doThrow(String code, String message) throws E {
+        throw (E) new AppException(code, message);
     }
 
 }

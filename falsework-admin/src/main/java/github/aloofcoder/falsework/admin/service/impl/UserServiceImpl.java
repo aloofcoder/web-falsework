@@ -18,6 +18,7 @@ import github.aloofcoder.falsework.admin.pojo.vo.UserDetailVO;
 import github.aloofcoder.falsework.admin.pojo.vo.UserPageVO;
 import github.aloofcoder.falsework.admin.service.*;
 import github.aloofcoder.falsework.common.util.AppException;
+import github.aloofcoder.falsework.common.util.ErrorCode;
 import github.aloofcoder.falsework.common.util.PageResult;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -99,11 +100,16 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void createUser(UserDTO userDTO) {
+        UserEntity loginNameExists = checkLoginNameSysExists(userDTO.getLoginName());
+        if (Objects.nonNull(loginNameExists)) {
+            // 登录名已存在
+            throw new AppException(ErrorCode.USER_NAME_REPEAT);
+        }
         String loginNum = BaseContextUtil.getLoginNum();
         Integer orgId = userDTO.getOrgId();
         OrgEntity orgEntity = orgService.findOrgByOrgId(orgId);
         if (Objects.isNull(orgEntity)) {
-            throw new AppException("无效的组织");
+            throw new AppException(ErrorCode.ORG_ID_INVALID);
         }
         UserEntity entity = new UserEntity();
         BeanUtils.copyProperties(userDTO, entity);
@@ -114,12 +120,12 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
         entity.setEditBy(loginNum);
         boolean addUserFlag = this.save(entity);
         if (!addUserFlag) {
-            throw new AppException("添加用户失败，请重试");
+            throw new AppException(ErrorCode.DB_REQ_ERR);
         }
         // 添加用户与组织关系
         boolean addOrgUserFlag = orgUserService.saveOrgUser(entity.getUserNum(), orgId);
         if (!addOrgUserFlag) {
-            throw new AppException("添加用户失败，请重试");
+            throw new AppException(ErrorCode.DB_REQ_ERR);
         }
     }
 
@@ -130,27 +136,32 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
         Integer orgId = userDTO.getOrgId();
         OrgEntity orgEntity = orgService.findOrgByOrgId(orgId);
         if (Objects.isNull(orgEntity)) {
-            throw new AppException("无效的组织");
+            throw new AppException(ErrorCode.ORG_ID_INVALID);
+        }
+        UserEntity loginNameExists = checkLoginNameSysExists(userDTO.getLoginName());
+        if (Objects.nonNull(loginNameExists) && !userNum.equals(loginNameExists.getUserNum())) {
+            // 系统已存在该登录名
+            throw new AppException(ErrorCode.USER_NAME_REPEAT);
         }
         UserEntity entity = this.getOne(new QueryWrapper<UserEntity>().eq("user_num", userNum));
         if (Objects.isNull(entity)) {
-            throw new AppException("修改用户失败，无效的用户编号");
+            throw new AppException(ErrorCode.USER_NUM_ERR);
         }
         BeanUtils.copyProperties(userDTO, entity);
         entity.setEditBy(loginNum);
         boolean editUserFlag = update(entity, new UpdateWrapper<UserEntity>().eq("user_num", userNum));
         if (!editUserFlag) {
-            throw new AppException("修改用户失败，请重试");
+            throw new AppException(ErrorCode.DB_REQ_ERR);
         }
         // 移除用户原有组织
         boolean removeUserOrgFlag = orgUserService.removeByUserNum(userNum);
         if (!removeUserOrgFlag) {
-            throw new AppException("修改用户失败，请重试");
+            throw new AppException(ErrorCode.DB_REQ_ERR);
         }
         // 添加用户与组织关系
         boolean addOrgUserFlag = orgUserService.saveOrgUser(entity.getUserNum(), orgId);
         if (!addOrgUserFlag) {
-            throw new AppException("添加用户失败，请重试");
+            throw new AppException(ErrorCode.DB_REQ_ERR);
         }
     }
 
@@ -164,19 +175,19 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
         List<UserEntity> list = this.list(queryWrapper);
         long adminCount = list.stream().filter(item -> item.getLoginName().equals(ADMIN_LOGIN_NAME)).count();
         if (adminCount > 0) {
-            throw new AppException("管理员账号不能被删除");
+            throw new AppException(ErrorCode.USER_DEL_ADMIN_ERR);
         }
         boolean removeUserFlag = this.remove(queryWrapper);
         if (!removeUserFlag) {
-            throw new AppException("删除用户失败，请重试");
+            throw new AppException(ErrorCode.DB_REQ_ERR);
         }
         boolean removeOrgUserFlag = orgUserService.removeByUserNums(userNums);
         if (!removeOrgUserFlag) {
-            throw new AppException("删除用户失败，请重试");
+            throw new AppException(ErrorCode.DB_REQ_ERR);
         }
         boolean removeUserRoleFlag = userRoleService.removeByUserNums(userNums);
         if (!removeUserRoleFlag) {
-            throw new AppException("删除用户失败，请重试");
+            throw new AppException(ErrorCode.DB_REQ_ERR);
         }
 
     }
@@ -196,17 +207,17 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
     public void userRoleAssign(String userNum, Integer[] roleIds) {
         UserEntity entity = this.getOne(new QueryWrapper<UserEntity>().eq("user_num", userNum));
         if (Objects.isNull(entity)) {
-            throw new AppException("分配用户角色失败，无效的用户编号");
+            throw new AppException(ErrorCode.USER_NUM_ERR);
         }
         // 删除用户角色
         boolean removeUserRoleFlag = userRoleService.removeByUserNum(userNum);
         if (!removeUserRoleFlag) {
-            throw new AppException("分配用户角色失败，请重试");
+            throw new AppException(ErrorCode.DB_REQ_ERR);
         }
         // 添加用户与角色关系
         boolean saveUserRoleFlag = userRoleService.saveUserRoles(userNum, roleIds);
         if (!saveUserRoleFlag) {
-            throw new AppException("分配用户角色失败，请重试");
+            throw new AppException(ErrorCode.DB_REQ_ERR);
         }
     }
 
@@ -223,5 +234,21 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
         List<String> roles = userRoleService.findUserRoleMarksByUserNum(entity.getUserNum());
         bo.setRoles(roles);
         return bo;
+    }
+
+    /**
+     * 检查登录名是否存在
+     *
+     * @param loginName
+     * @return
+     */
+    private UserEntity checkLoginNameSysExists(String loginName) {
+        QueryWrapper<UserEntity> wrapper = new QueryWrapper<>();
+        wrapper.eq("login_name", loginName);
+        UserEntity lastUser = getOne(wrapper);
+        if (Objects.nonNull(lastUser)) {
+            return lastUser;
+        }
+        return null;
     }
 }

@@ -3,6 +3,7 @@ package github.aloofcoder.falsework.admin.controller;
 import github.aloofcoder.falsework.admin.config.JwtTokenUtil;
 import github.aloofcoder.falsework.admin.pojo.dto.UserLoginDTO;
 import github.aloofcoder.falsework.common.util.AppException;
+import github.aloofcoder.falsework.common.util.ErrorCode;
 import github.aloofcoder.falsework.common.util.R;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -49,9 +50,9 @@ public class LoginController {
                     authenticationRequest.getUsername(),
                     authenticationRequest.getPassword()));
         } catch (DisabledException e) {
-            throw new AppException("账号或密码错误");
+            throw new AppException(ErrorCode.USER_INVALID_ERR);
         } catch (BadCredentialsException e) {
-            throw new AppException("账号或密码错误");
+            throw new AppException(ErrorCode.USER_PWD_ERR);
         }
         final UserDetails userDetails = userDetailsService
                 .loadUserByUsername(authenticationRequest.getUsername());

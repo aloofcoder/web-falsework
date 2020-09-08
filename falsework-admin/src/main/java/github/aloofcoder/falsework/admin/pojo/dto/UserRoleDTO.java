@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
- * 
+ *
  *
  * @author hanle
  * @email hanl1946@163.com
@@ -13,7 +13,6 @@ import lombok.Data;
 @Data
 @Schema(name = "UserRoleDTO", description = "添加参数")
 public class UserRoleDTO {
-
 
     @Schema(name = "roleId", description = "", type = "Integer")
     private Integer roleId;

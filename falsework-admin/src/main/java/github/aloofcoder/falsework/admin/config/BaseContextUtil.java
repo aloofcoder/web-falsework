@@ -2,6 +2,7 @@ package github.aloofcoder.falsework.admin.config;
 
 import github.aloofcoder.falsework.admin.pojo.bo.UserAuthBO;
 import github.aloofcoder.falsework.common.util.AppException;
+import github.aloofcoder.falsework.common.util.ErrorCode;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -9,6 +10,7 @@ import java.util.List;
 
 /**
  * 获取当前登录账号信息
+ *
  * @author hanle
  * @date 2020-09-06
  */
@@ -17,7 +19,7 @@ public class BaseContextUtil {
     public static UserAuthBO getLoginPrincipal() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!(authentication.getPrincipal() instanceof UserAuthBO)) {
-            throw new AppException("等路已失效");
+            throw new AppException(ErrorCode.USER_AUTH_EXPIRED);
         }
         UserAuthBO userBO = (UserAuthBO) authentication.getPrincipal();
         return userBO;

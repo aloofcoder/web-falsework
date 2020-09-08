@@ -130,4 +130,12 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleDao, UserRoleEntity
         return roles;
     }
 
+    @Override
+    public List<UserRoleEntity> findUserRolesByRoleIds(List<Integer> roleIds) {
+        QueryWrapper<UserRoleEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.in("role_id", roleIds);
+        List<UserRoleEntity> list = this.list(queryWrapper);
+        return list;
+    }
+
 }

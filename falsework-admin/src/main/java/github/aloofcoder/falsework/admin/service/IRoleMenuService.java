@@ -1,12 +1,11 @@
 package github.aloofcoder.falsework.admin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import github.aloofcoder.falsework.admin.pojo.vo.MenuListVO;
-import github.aloofcoder.falsework.common.util.PageResult;
+import github.aloofcoder.falsework.admin.pojo.dto.RoleMenuDTO;
+import github.aloofcoder.falsework.admin.pojo.dto.RoleMenuPageDTO;
 import github.aloofcoder.falsework.admin.pojo.entity.RoleMenuEntity;
 import github.aloofcoder.falsework.admin.pojo.vo.RoleMenuDetailVO;
-import github.aloofcoder.falsework.admin.pojo.dto.RoleMenuPageDTO;
-import github.aloofcoder.falsework.admin.pojo.dto.RoleMenuDTO;
+import github.aloofcoder.falsework.common.util.PageResult;
 
 import java.util.List;
 
@@ -78,4 +77,20 @@ public interface IRoleMenuService extends IService<RoleMenuEntity> {
      * @return
      */
     boolean saveRoleMenus(Integer roleId, Integer[] menuIds);
+
+    /**
+     * 删除角色分配的菜单
+     *
+     * @param roleIds
+     * @return
+     */
+    boolean removeByRoleIds(List<Integer> roleIds);
+
+    /**
+     * 查询菜单分配给角色的列表
+     *
+     * @param menuIds
+     * @return
+     */
+    List<RoleMenuEntity> findRoleMenuByMenuIds(List<Integer> menuIds);
 }

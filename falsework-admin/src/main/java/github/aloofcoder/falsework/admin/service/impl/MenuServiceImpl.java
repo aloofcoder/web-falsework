@@ -17,6 +17,8 @@ import github.aloofcoder.falsework.admin.pojo.vo.MenuDetailVO;
 import github.aloofcoder.falsework.admin.pojo.vo.MenuListVO;
 import github.aloofcoder.falsework.admin.service.IMenuService;
 import github.aloofcoder.falsework.admin.service.IRoleMenuService;
+import github.aloofcoder.falsework.common.util.AppException;
+import github.aloofcoder.falsework.common.util.ErrorCode;
 import github.aloofcoder.falsework.common.util.PageResult;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -66,6 +68,14 @@ public class MenuServiceImpl extends ServiceImpl<MenuDao, MenuEntity> implements
 
     @Override
     public void createMenu(MenuDTO menuDTO) {
+        MenuEntity menuNameEntity = findByMenuName(menuDTO.getMenuName());
+        if (Objects.nonNull(menuNameEntity)) {
+            throw new AppException(ErrorCode.MENU_NAME_REPEAT);
+        }
+        MenuEntity menuPathEntity = findByMenuPath(menuDTO.getMenuPath());
+        if (Objects.nonNull(menuPathEntity)) {
+            throw new AppException(ErrorCode.MENU_PATH_REPEAT);
+        }
         String loginNum = BaseContextUtil.getLoginNum();
         MenuEntity entity = new MenuEntity();
         BeanUtils.copyProperties(menuDTO, entity);
@@ -76,10 +86,18 @@ public class MenuServiceImpl extends ServiceImpl<MenuDao, MenuEntity> implements
 
     @Override
     public void updateMenu(Integer id, MenuDTO menuDTO) {
+        MenuEntity menuNameEntity = findByMenuName(menuDTO.getMenuName());
+        if (Objects.nonNull(menuNameEntity) && !id.equals(menuNameEntity.getId())) {
+            throw new AppException(ErrorCode.MENU_NAME_REPEAT);
+        }
+        MenuEntity menuPathEntity = findByMenuPath(menuDTO.getMenuPath());
+        if (Objects.nonNull(menuPathEntity) && !id.equals(menuNameEntity.getId())) {
+            throw new AppException(ErrorCode.MENU_PATH_REPEAT);
+        }
         String loginNum = BaseContextUtil.getLoginNum();
         MenuEntity entity = this.getOne(new QueryWrapper<MenuEntity>().eq("id", id));
         if (Objects.isNull(entity)) {
-            throw new IllegalArgumentException();
+            throw new AppException(ErrorCode.MENU_ID_INVALID);
         }
         BeanUtils.copyProperties(menuDTO, entity);
         entity.setEditBy(loginNum);
@@ -88,7 +106,17 @@ public class MenuServiceImpl extends ServiceImpl<MenuDao, MenuEntity> implements
 
     @Override
     public void deleteMenus(Integer[] ids) {
-        this.removeByIds(Arrays.asList(ids));
+        List<RoleMenuEntity> roleMenuList = roleMenuService.findRoleMenuByMenuIds(Arrays.asList(ids));
+        if (roleMenuList.size() > 0) {
+            List<Integer> menuIds = roleMenuList.stream().map(RoleMenuEntity::getMenuId).collect(Collectors.toList());
+            String menuNames = this.list(new QueryWrapper<MenuEntity>().eq("id", menuIds))
+                    .stream().map(MenuEntity::getMenuName).collect(Collectors.joining());
+            throw new AppException(ErrorCode.MENU_USED.getCode(), String.format("删除菜单【%1$s】失败，", menuNames) + ErrorCode.MENU_USED.getMsg());
+        }
+        boolean removeMenuFlag = this.removeByIds(Arrays.asList(ids));
+        if (!removeMenuFlag) {
+            throw new AppException(ErrorCode.DB_REQ_ERR);
+        }
     }
 
     @Override
@@ -197,5 +225,25 @@ public class MenuServiceImpl extends ServiceImpl<MenuDao, MenuEntity> implements
             return vo;
         }).collect(Collectors.toList());
         return roleMenu;
+    }
+
+    private MenuEntity findByMenuName(String menuName) {
+        QueryWrapper<MenuEntity> menuNameWrapper = new QueryWrapper<>();
+        menuNameWrapper.eq("menu_name", menuName);
+        MenuEntity entity = getOne(menuNameWrapper);
+        if (Objects.nonNull(entity)) {
+            return entity;
+        }
+        return null;
+    }
+
+    private MenuEntity findByMenuPath(String menuPath) {
+        QueryWrapper<MenuEntity> menuPathWrapper = new QueryWrapper<>();
+        menuPathWrapper.eq("menu_path", menuPath);
+        MenuEntity entity = getOne(menuPathWrapper);
+        if (Objects.nonNull(entity)) {
+            return entity;
+        }
+        return null;
     }
 }

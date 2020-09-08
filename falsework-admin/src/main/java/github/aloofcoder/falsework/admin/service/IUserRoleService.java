@@ -88,5 +88,19 @@ public interface IUserRoleService extends IService<UserRoleEntity> {
     boolean saveUserRoles(String userNum, Integer[] roleIds);
 
 
+    /**
+     * 通过用户编号查询角色列表
+     *
+     * @param userNum
+     * @return
+     */
     List<String> findUserRoleMarksByUserNum(String userNum);
+
+    /**
+     * 通过角色Id列表查询角色
+     *
+     * @param asList
+     * @return
+     */
+    List<UserRoleEntity> findUserRolesByRoleIds(List<Integer> asList);
 }
