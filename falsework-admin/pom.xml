@@ -63,10 +63,29 @@
     </dependencies>
 
     <build>
+        <finalName>falsework-admin</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <!-- Docker maven plugin -->
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>dockerfile-maven-plugin</artifactId>
+                <version>1.4.10</version>
+                <executions>
+                    <execution>
+                        <id>default</id>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <repository>github.aloofcoder.falsework/${project.artifactId}</repository>
+                    <dockerfile>src/main/docker/Dockerfile</dockerfile>
+                </configuration>
             </plugin>
         </plugins>
     </build>
