@@ -40,6 +40,7 @@ public class CodeGenerateServiceImpl implements ICodeGenerateService {
         return codeGenerateDao.queryColumns(tableName);
     }
 
+    @SuppressWarnings("AliDeprecation")
     @Override
     public byte[] buildCode(String[] tables) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();

@@ -70,13 +70,13 @@ public class CodeGenerateUtils {
             columnEntity.setAttrType(attrType);
 
 
-            if (!hasBigDecimal && attrType.equals("BigDecimal")) {
+            if (!hasBigDecimal && "BigDecimal".equals(attrType)) {
                 hasBigDecimal = true;
             }
             if (!hasList && "array".equals(columnEntity.getExtra())) {
                 hasList = true;
             }
-            if (!hasDate && attrType.equals("Date")) {
+            if (!hasDate && "Date".equals(attrType)) {
                 hasDate = true;
             }
             //是否主键
