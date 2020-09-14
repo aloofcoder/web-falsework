@@ -123,7 +123,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleDao, RoleEntity> implements
             List<Integer> usedRoleIds = userRoleList.stream().map(UserRoleEntity::getRoleId).collect(Collectors.toList());
             QueryWrapper<RoleEntity> queryWrapper = new QueryWrapper<>();
             queryWrapper.in("role_id", usedRoleIds);
-            String roles = this.list(queryWrapper).stream().map(RoleEntity::getRoleName).collect(Collectors.joining());
+            String roles = this.list(queryWrapper).stream().map(RoleEntity::getRoleName).collect(Collectors.joining("，"));
             throw new AppException(ErrorCode.ROLE_USED.getCode(), String.format("删除角色【%1$s】失败，", roles) + ErrorCode.ROLE_USED.getMsg());
         }
         // 删除角色

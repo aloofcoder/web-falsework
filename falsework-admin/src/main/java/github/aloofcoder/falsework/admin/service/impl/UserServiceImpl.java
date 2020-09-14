@@ -109,6 +109,9 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void createUser(UserDTO userDTO) {
+        if (StringUtils.isBlank(userDTO.getLoginPwd())) {
+            throw new AppException(ErrorCode.USER_PWD_EMPTY);
+        }
         UserEntity loginNameExists = checkLoginNameSysExists(userDTO.getLoginName());
         if (Objects.nonNull(loginNameExists)) {
             // 登录名已存在
@@ -156,8 +159,10 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
         if (Objects.isNull(entity)) {
             throw new AppException(ErrorCode.USER_NUM_ERR);
         }
+        String loginPwd = entity.getLoginPwd();
         BeanUtils.copyProperties(userDTO, entity);
         entity.setEditBy(loginNum);
+        entity.setLoginPwd(loginPwd);
         boolean editUserFlag = update(entity, new UpdateWrapper<UserEntity>().eq("user_num", userNum));
         if (!editUserFlag) {
             throw new AppException(ErrorCode.DB_REQ_ERR);

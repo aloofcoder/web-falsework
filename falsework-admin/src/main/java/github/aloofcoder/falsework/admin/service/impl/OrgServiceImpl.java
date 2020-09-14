@@ -115,7 +115,7 @@ public class OrgServiceImpl extends ServiceImpl<OrgDao, OrgEntity> implements IO
         if (orgUserList.size() > 0) {
             List<Integer> orgIds = orgUserList.stream().map(OrgUserEntity::getOrgId).collect(Collectors.toList());
             String orgNames = this.list(new QueryWrapper<OrgEntity>().in("id", orgIds))
-                    .stream().map(OrgEntity::getOrgName).collect(Collectors.joining());
+                    .stream().map(OrgEntity::getOrgName).collect(Collectors.joining("，"));
             throw new AppException(ErrorCode.ORG_USED.getCode(), String.format("删除组织【%1$s】失败，", orgNames) + ErrorCode.ORG_USED.getMsg());
         }
         boolean removeOrgFlag = this.removeByIds(Arrays.asList(ids));

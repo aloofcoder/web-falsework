@@ -68,13 +68,17 @@ public class MenuServiceImpl extends ServiceImpl<MenuDao, MenuEntity> implements
 
     @Override
     public void createMenu(MenuDTO menuDTO) {
+        validMenuParam(menuDTO);
         MenuEntity menuNameEntity = findByMenuName(menuDTO.getMenuName());
         if (Objects.nonNull(menuNameEntity)) {
             throw new AppException(ErrorCode.MENU_NAME_REPEAT);
         }
-        MenuEntity menuPathEntity = findByMenuPath(menuDTO.getMenuPath());
-        if (Objects.nonNull(menuPathEntity)) {
-            throw new AppException(ErrorCode.MENU_PATH_REPEAT);
+        if (menuDTO.getMenuClass() != 3) {
+            // 验证目录/菜单路径
+            MenuEntity menuPathEntity = findByMenuPath(menuDTO.getMenuPath());
+            if (Objects.nonNull(menuPathEntity)) {
+                throw new AppException(ErrorCode.MENU_PATH_REPEAT);
+            }
         }
         String loginNum = BaseContextUtil.getLoginNum();
         MenuEntity entity = new MenuEntity();
@@ -86,13 +90,16 @@ public class MenuServiceImpl extends ServiceImpl<MenuDao, MenuEntity> implements
 
     @Override
     public void updateMenu(Integer id, MenuDTO menuDTO) {
+        validMenuParam(menuDTO);
         MenuEntity menuNameEntity = findByMenuName(menuDTO.getMenuName());
         if (Objects.nonNull(menuNameEntity) && !id.equals(menuNameEntity.getId())) {
             throw new AppException(ErrorCode.MENU_NAME_REPEAT);
         }
-        MenuEntity menuPathEntity = findByMenuPath(menuDTO.getMenuPath());
-        if (Objects.nonNull(menuPathEntity) && !id.equals(menuNameEntity.getId())) {
-            throw new AppException(ErrorCode.MENU_PATH_REPEAT);
+        if (menuDTO.getMenuClass() != 3) {
+            MenuEntity menuPathEntity = findByMenuPath(menuDTO.getMenuPath());
+            if (Objects.nonNull(menuPathEntity) && !id.equals(menuNameEntity.getId())) {
+                throw new AppException(ErrorCode.MENU_PATH_REPEAT);
+            }
         }
         String loginNum = BaseContextUtil.getLoginNum();
         MenuEntity entity = this.getOne(new QueryWrapper<MenuEntity>().eq("id", id));
@@ -109,8 +116,8 @@ public class MenuServiceImpl extends ServiceImpl<MenuDao, MenuEntity> implements
         List<RoleMenuEntity> roleMenuList = roleMenuService.findRoleMenuByMenuIds(Arrays.asList(ids));
         if (roleMenuList.size() > 0) {
             List<Integer> menuIds = roleMenuList.stream().map(RoleMenuEntity::getMenuId).collect(Collectors.toList());
-            String menuNames = this.list(new QueryWrapper<MenuEntity>().eq("id", menuIds))
-                    .stream().map(MenuEntity::getMenuName).collect(Collectors.joining());
+            String menuNames = this.list(new QueryWrapper<MenuEntity>().in("id", menuIds))
+                    .stream().map(MenuEntity::getMenuName).collect(Collectors.joining("，"));
             throw new AppException(ErrorCode.MENU_USED.getCode(), String.format("删除菜单【%1$s】失败，", menuNames) + ErrorCode.MENU_USED.getMsg());
         }
         boolean removeMenuFlag = this.removeByIds(Arrays.asList(ids));
@@ -248,5 +255,25 @@ public class MenuServiceImpl extends ServiceImpl<MenuDao, MenuEntity> implements
             return entity;
         }
         return null;
+    }
+
+    /**
+     * 验证菜单参数
+     *
+     * @param menuDTO
+     */
+    private void validMenuParam(MenuDTO menuDTO) {
+        if (menuDTO.getMenuClass() != 3 && StringUtils.isBlank(menuDTO.getMenuPath())) {
+            throw new AppException(ErrorCode.MENU_PATH_EMPTY);
+        }
+        if (menuDTO.getMenuClass() == 2 && StringUtils.isBlank(menuDTO.getMenuComponent())) {
+            throw new AppException(ErrorCode.MENU_COMPONENT_ADDR_EMPTY);
+        }
+        if (menuDTO.getMenuClass() == 1 && StringUtils.isBlank(menuDTO.getMenuRedirect())) {
+            throw new AppException(ErrorCode.MENU_REDIRECT_ADDR_EMPTY);
+        }
+        if (menuDTO.getMenuClass() == 3 && StringUtils.isBlank(menuDTO.getMenuMark())) {
+            throw new AppException(ErrorCode.MENU_MARK_EMPTY);
+        }
     }
 }

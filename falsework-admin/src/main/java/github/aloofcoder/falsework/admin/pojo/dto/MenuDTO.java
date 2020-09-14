@@ -4,10 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.hibernate.validator.constraints.Range;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 /**
  * 系统菜单
@@ -30,11 +27,11 @@ public class MenuDTO {
     @Schema(name = "menuName", description = "菜单名", type = "String")
     private String menuName;
 
-    @NotBlank(message = "菜单路径不能为空")
     @Size(min = 2, max = 100, message = "菜单路径长度必须在2-100个字符之间")
     @Schema(name = "menuPath", description = "菜单路径", type = "String")
     private String menuPath;
 
+    @Size(min = 2, max = 100, message = "组件地址长度必须在2-100个字符之间")
     @Schema(name = "menuComponent", description = "组件地址", type = "String")
     private String menuComponent;
 
@@ -56,10 +53,13 @@ public class MenuDTO {
     @Schema(name = "menuIcon", description = "菜单图标", type = "String")
     private String menuIcon;
 
+    @NotBlank(message = "菜单描述不能为空")
     @Size(max = 150, message = "菜单描述长度不能超过150个字符")
     @Schema(name = "menuDesc", description = "菜单描述", type = "String")
     private String menuDesc;
 
+    @NotNull(message = "显示排序号不能为空")
+    @Range(min = 1, max = 99999, message = "显示排序号必须在1~99999之间")
     @Schema(name = "menuSort", description = "显示排序号", type = "Integer")
     private Integer menuSort;
 
