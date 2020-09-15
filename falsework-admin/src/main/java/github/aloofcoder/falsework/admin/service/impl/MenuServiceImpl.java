@@ -79,6 +79,8 @@ public class MenuServiceImpl extends ServiceImpl<MenuDao, MenuEntity> implements
             if (Objects.nonNull(menuPathEntity)) {
                 throw new AppException(ErrorCode.MENU_PATH_REPEAT);
             }
+        } else {
+            menuDTO.setMenuPath(menuDTO.getMenuMark().replace(":", "/"));
         }
         String loginNum = BaseContextUtil.getLoginNum();
         MenuEntity entity = new MenuEntity();

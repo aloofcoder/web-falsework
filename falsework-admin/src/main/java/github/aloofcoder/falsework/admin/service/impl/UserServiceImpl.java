@@ -75,13 +75,19 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
                 wrapper);
         List<UserPageVO> userList = new ArrayList<>();
         List<String> userNums = page.getRecords().stream().map(UserEntity::getUserNum).collect(Collectors.toList());
-        List<Map<String, String>> userRoleNames = userRoleService.findUserRoleNamesByUserNums(userNums);
-        Map<String, String> roleNameMap = userRoleNames.stream().collect(Collectors.toMap(x -> x.get("userNum"), y -> y.get("roles")));
+        Map<String, String> roleNameMap = null;
+        if (userNums.size() > 0) {
+            List<Map<String, String>> userRoleNames = userRoleService.findUserRoleNamesByUserNums(userNums);
+            roleNameMap = userRoleNames.stream().collect(Collectors.toMap(x -> x.get("userNum"), y -> y.get("roles")));
+        }
+        Map<String, String> finalRoleNameMap = roleNameMap;
         page.getRecords().stream().forEach(item -> {
             UserPageVO vo = new UserPageVO();
             BeanUtils.copyProperties(item, vo);
-            String roles = roleNameMap.get(item.getUserNum());
-            vo.setRoles(roles);
+            if (Objects.nonNull(finalRoleNameMap)) {
+                String roles = finalRoleNameMap.get(item.getUserNum());
+                vo.setRoles(roles);
+            }
             userList.add(vo);
         });
         PageResult pageResult = new PageResult(page);
