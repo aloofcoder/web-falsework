@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50724
 File Encoding         : 65001
 
-Date: 2020-09-14 11:36:39
+Date: 2020-09-16 09:39:22
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -74,7 +74,7 @@ CREATE TABLE `sys_menu` (
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
   `edit_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COMMENT='系统菜单';
+) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8mb4 COMMENT='系统菜单';
 
 -- ----------------------------
 -- Records of sys_menu
@@ -83,15 +83,32 @@ INSERT INTO `sys_menu` VALUES ('1', '0', '系统管理', '/sys', null, '/sys/use
 INSERT INTO `sys_menu` VALUES ('2', '1', '用户管理', 'users', 'sys/users/index', null, null, '2', 'user1', '用户管理', '1', '0', '1', '7861948169', '7861948169', '2020-09-05 02:26:25', '2020-09-05 02:26:25');
 INSERT INTO `sys_menu` VALUES ('3', '1', '角色管理', 'roles', 'sys/roles/role', '', null, '2', 'role', '角色管理', '2', '0', '1', '7861948169', '7861948169', '2020-09-05 02:31:22', '2020-09-05 02:31:22');
 INSERT INTO `sys_menu` VALUES ('4', '1', '菜单管理', 'menus', 'sys/menus/menu', null, null, '2', 'menu', '菜单管理', '1', '0', '1', '7861948169', '7861948169', '2020-09-05 02:31:20', '2020-09-05 02:31:20');
-INSERT INTO `sys_menu` VALUES ('5', '4', '修改', '/sys/menus/update', null, null, 'sys:menus:update', '3', 'table', null, '1', '0', '1', '7861948169', '7861948169', '2020-09-05 06:47:32', '2020-09-05 06:47:32');
-INSERT INTO `sys_menu` VALUES ('7', '3', '修改1', '/sys/roles/update', null, '', 'sys:roles:update', '3', 'el-edit', '修改角色按钮', '1', '0', '1', '1', '1', '2020-09-14 02:28:52', '2020-09-14 02:28:52');
-INSERT INTO `sys_menu` VALUES ('10', '9', '添加1', '/article/list/add', null, '', 'article:list:add', '3', 'el-add', '添加文章按钮', '1', '0', '1', '1', '1', '2020-09-14 02:28:49', '2020-09-14 02:28:49');
 INSERT INTO `sys_menu` VALUES ('11', '1', '部门管理', 'orgs', 'sys/orgs/org', '', '', '2', 'tree', '部门管理', '1', '0', '1', '1', '1', '2020-09-05 02:52:36', '2020-09-05 02:52:36');
-INSERT INTO `sys_menu` VALUES ('15', '3', '添加', '/article/article/add', '', '', 'sys:role:add', '3', 'add', '添加', '1', '0', '1', '1', '1', '2020-09-08 08:46:23', '2020-09-08 08:46:23');
-INSERT INTO `sys_menu` VALUES ('17', '16', '审核', '', '', '', 'article:review:reivew', '3', 'table', '审核', '0', '0', '1', '7861948169', '7861948169', '2020-09-08 08:46:31', '2020-09-08 08:46:31');
-INSERT INTO `sys_menu` VALUES ('18', '0', '模版管理', '/template', null, '/template/list', null, '1', 'table', '模版管理', '1', '0', '1', '7861948169', '7861948169', '2020-09-14 02:17:13', '2020-09-14 02:17:13');
-INSERT INTO `sys_menu` VALUES ('19', '18', '模板类型', 'type', 'template/type/index', null, null, '2', 'table', '模板类型', '1', '0', '1', '7861948169', '7861948169', '2020-09-14 02:21:11', '2020-09-14 02:21:11');
-INSERT INTO `sys_menu` VALUES ('20', '18', '网页模板', 'website', 'template/website/index', null, null, '2', 'table', '网页模板', '2', '0', '1', '7861948169', '7861948169', '2020-09-14 03:04:57', '2020-09-14 03:04:57');
+INSERT INTO `sys_menu` VALUES ('21', '2', '添加用户', 'sys/users/add', null, null, 'sys:users:add', '3', 'table', '添加用户按钮', '2', '0', '1', '6633549909', '7861948169', '2020-09-15 08:32:40', '2020-09-15 08:32:40');
+INSERT INTO `sys_menu` VALUES ('22', '2', '修改用户', 'sys/users/update', null, null, 'sys:users:update', '3', 'table', '修改用户', '1', '0', '1', '7861948169', '7861948169', '2020-09-15 08:29:31', '2020-09-15 08:29:31');
+INSERT INTO `sys_menu` VALUES ('23', '2', '删除用户', 'sys/users/delete', null, null, 'sys:users:delete', '3', 'table', '删除用户按钮', '3', '0', '1', '7861948169', '7861948169', '2020-09-15 08:31:05', '2020-09-15 08:31:05');
+INSERT INTO `sys_menu` VALUES ('27', '2', '批量删除用户', 'sys/users/deletes', null, null, 'sys:users:deletes', '3', 'table', '批量删除用户按钮', '4', '0', '1', '7861948169', '7861948169', '2020-09-15 08:42:55', '2020-09-15 08:42:55');
+INSERT INTO `sys_menu` VALUES ('28', '2', '角色分配', 'sys/users/role_assign', null, null, 'sys:users:role_assign', '3', 'table', '角色分配', '5', '0', '1', '7861948169', '7861948169', '2020-09-15 08:55:27', '2020-09-15 08:55:27');
+INSERT INTO `sys_menu` VALUES ('29', '3', '添加角色', 'sys/roles/add', null, null, 'sys:roles:add', '3', 'table', '添加角色按钮', '1', '0', '1', '7861948169', '7861948169', '2020-09-15 09:13:37', '2020-09-15 09:13:37');
+INSERT INTO `sys_menu` VALUES ('30', '3', '修改角色', 'sys/roles/update', null, null, 'sys:roles:update', '3', 'table', '修改角色按钮', '2', '0', '1', '7861948169', '7861948169', '2020-09-15 09:14:35', '2020-09-15 09:14:35');
+INSERT INTO `sys_menu` VALUES ('31', '3', '删除角色', 'sys/roles/delete', null, null, 'sys:roles:delete', '3', 'table', '删除角色按钮', '1', '0', '1', '7861948169', '7861948169', '2020-09-15 09:15:28', '2020-09-15 09:15:28');
+INSERT INTO `sys_menu` VALUES ('32', '3', '批量删除角色', 'sys/roles/deletes', null, null, 'sys:roles:deletes', '3', 'table', '批量删除角色按钮', '1', '0', '1', '7861948169', '7861948169', '2020-09-15 09:16:22', '2020-09-15 09:16:22');
+INSERT INTO `sys_menu` VALUES ('33', '3', '角色授权', 'sys/roles/auth', null, null, 'sys:roles:auth', '3', 'table', '角色授权按钮', '1', '0', '1', '7861948169', '7861948169', '2020-09-15 09:17:07', '2020-09-15 09:17:07');
+INSERT INTO `sys_menu` VALUES ('34', '4', '添加菜单', 'sys/menus/add', null, null, 'sys:menus:add', '3', 'table', '添加菜单按钮', '1', '0', '1', '7861948169', '7861948169', '2020-09-15 09:18:14', '2020-09-15 09:18:14');
+INSERT INTO `sys_menu` VALUES ('35', '4', '修改菜单', 'sys/menus/update', null, null, 'sys:menus:update', '3', 'table', '修改菜单按钮', '1', '0', '1', '7861948169', '7861948169', '2020-09-15 09:18:47', '2020-09-15 09:18:47');
+INSERT INTO `sys_menu` VALUES ('36', '4', '删除菜单', 'sys/menus/delete', null, null, 'sys:menus:delete', '3', 'table', '删除菜单按钮', '1', '0', '1', '7861948169', '7861948169', '2020-09-15 09:19:15', '2020-09-15 09:19:15');
+INSERT INTO `sys_menu` VALUES ('37', '4', '批量删除菜单', 'sys/menus/deletes', null, null, 'sys:menus:deletes', '3', 'table', '批量删除菜单按钮', '1', '0', '1', '7861948169', '7861948169', '2020-09-15 10:28:09', '2020-09-15 10:28:09');
+INSERT INTO `sys_menu` VALUES ('38', '11', '添加部门', 'sys/orgs/add', null, null, 'sys:orgs:add', '3', 'table', '添加部门按钮', '1', '0', '1', '7861948169', '7861948169', '2020-09-15 09:20:47', '2020-09-15 09:20:47');
+INSERT INTO `sys_menu` VALUES ('39', '11', '修改部门', 'sys/orgs/update', null, null, 'sys:orgs:update', '3', 'table', '修改部门按钮', '1', '0', '1', '7861948169', '7861948169', '2020-09-15 09:21:47', '2020-09-15 09:21:47');
+INSERT INTO `sys_menu` VALUES ('40', '11', '删除部门', 'sys/orgs/delete', null, null, 'sys:orgs:delete', '3', 'table', '删除部门', '1', '0', '1', '7861948169', '7861948169', '2020-09-15 09:22:35', '2020-09-15 09:22:35');
+INSERT INTO `sys_menu` VALUES ('41', '11', '批量删除部门', 'sys/orgs/deletes', null, null, 'sys:orgs:deletes', '3', 'table', '批量删除部门按钮', '1', '0', '1', '7861948169', '7861948169', '2020-09-15 10:28:16', '2020-09-15 10:28:16');
+INSERT INTO `sys_menu` VALUES ('42', '25', '添加栏目', 'article/type/add', null, null, 'article:type:add', '3', 'table', '添加栏目', '1', '0', '1', '7861948169', '7861948169', '2020-09-15 09:53:33', '2020-09-15 09:53:33');
+INSERT INTO `sys_menu` VALUES ('43', '25', '修改栏目', 'article/type/update', null, null, 'article:type:update', '3', 'table', '修改栏目', '1', '0', '1', '7861948169', '7861948169', '2020-09-15 10:02:29', '2020-09-15 10:02:29');
+INSERT INTO `sys_menu` VALUES ('44', '25', '删除栏目', 'article/type/delete', null, null, 'article:type:delete', '3', 'table', '删除栏目', '1', '0', '1', '7861948169', '7861948169', '2020-09-15 10:04:56', '2020-09-15 10:04:56');
+INSERT INTO `sys_menu` VALUES ('45', '25', '批量删除栏目', 'article/type/deletes', null, null, 'article:type:deletes', '3', 'table', '批量删除栏目', '1', '0', '1', '7861948169', '7861948169', '2020-09-15 10:11:54', '2020-09-15 10:11:54');
+INSERT INTO `sys_menu` VALUES ('46', '26', '添加文章', 'article/article/add', null, null, 'article:article:add', '3', 'table', '添加文章', '1', '0', '1', '7861948169', '7861948169', '2020-09-15 10:14:21', '2020-09-15 10:14:21');
+INSERT INTO `sys_menu` VALUES ('47', '26', '修改文章', 'article/article/update', null, null, 'article:article:update', '3', 'table', '修改文章', '1', '0', '1', '7861948169', '7861948169', '2020-09-15 10:15:13', '2020-09-15 10:15:13');
+INSERT INTO `sys_menu` VALUES ('48', '26', '删除文章', 'article/article/delete', null, null, 'article:article:delete', '3', 'table', '删除文章', '1', '0', '1', '7861948169', '7861948169', '2020-09-15 10:16:31', '2020-09-15 10:16:31');
 
 -- ----------------------------
 -- Table structure for sys_org
@@ -128,12 +145,13 @@ CREATE TABLE `sys_org_user` (
   `org_id` int(11) NOT NULL,
   `user_num` varchar(20) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of sys_org_user
 -- ----------------------------
 INSERT INTO `sys_org_user` VALUES ('45', '13', '7861948169');
+INSERT INTO `sys_org_user` VALUES ('46', '14', '6633549909');
 
 -- ----------------------------
 -- Table structure for sys_role
@@ -153,12 +171,16 @@ CREATE TABLE `sys_role` (
   PRIMARY KEY (`role_id`),
   UNIQUE KEY `unique_role_name` (`role_name`),
   UNIQUE KEY `unique_role_mark` (`role_mark`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of sys_role
 -- ----------------------------
 INSERT INTO `sys_role` VALUES ('1', '管理员', 'admin', '系统维护及管理。。。', '1', '1', '7861948169', '7861948169', '2020-06-16 09:33:12', '2020-06-16 09:33:12');
+INSERT INTO `sys_role` VALUES ('19', '开发工程师', 'coder', '软件开发工程师', '2', '1', '7861948169', '7861948169', '2020-09-15 08:03:38', '2020-09-15 08:03:38');
+INSERT INTO `sys_role` VALUES ('20', '测试工程师', 'tester', '软件测试工程师', '3', '1', '7861948169', '7861948169', '2020-09-15 08:12:10', '2020-09-15 08:12:10');
+INSERT INTO `sys_role` VALUES ('21', '产品工程师', 'producter', '软件产品工程师', '4', '1', '7861948169', '7861948169', '2020-09-15 08:12:41', '2020-09-15 08:12:41');
+INSERT INTO `sys_role` VALUES ('22', '运维工程师', 'opman', '运维工程师', '7', '1', '7861948169', '7861948169', '2020-09-15 09:41:05', '2020-09-15 09:41:05');
 
 -- ----------------------------
 -- Table structure for sys_role_menu
@@ -169,19 +191,62 @@ CREATE TABLE `sys_role_menu` (
   `role_id` int(11) DEFAULT NULL,
   `menu_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=251 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=695 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of sys_role_menu
 -- ----------------------------
-INSERT INTO `sys_role_menu` VALUES ('243', '1', '1');
-INSERT INTO `sys_role_menu` VALUES ('244', '1', '2');
-INSERT INTO `sys_role_menu` VALUES ('245', '1', '3');
-INSERT INTO `sys_role_menu` VALUES ('246', '1', '7');
-INSERT INTO `sys_role_menu` VALUES ('247', '1', '15');
-INSERT INTO `sys_role_menu` VALUES ('248', '1', '4');
-INSERT INTO `sys_role_menu` VALUES ('249', '1', '5');
-INSERT INTO `sys_role_menu` VALUES ('250', '1', '11');
+INSERT INTO `sys_role_menu` VALUES ('620', '1', '1');
+INSERT INTO `sys_role_menu` VALUES ('621', '1', '2');
+INSERT INTO `sys_role_menu` VALUES ('622', '1', '21');
+INSERT INTO `sys_role_menu` VALUES ('623', '1', '22');
+INSERT INTO `sys_role_menu` VALUES ('624', '1', '23');
+INSERT INTO `sys_role_menu` VALUES ('625', '1', '27');
+INSERT INTO `sys_role_menu` VALUES ('626', '1', '28');
+INSERT INTO `sys_role_menu` VALUES ('627', '1', '3');
+INSERT INTO `sys_role_menu` VALUES ('628', '1', '29');
+INSERT INTO `sys_role_menu` VALUES ('629', '1', '30');
+INSERT INTO `sys_role_menu` VALUES ('630', '1', '31');
+INSERT INTO `sys_role_menu` VALUES ('631', '1', '32');
+INSERT INTO `sys_role_menu` VALUES ('632', '1', '33');
+INSERT INTO `sys_role_menu` VALUES ('633', '1', '4');
+INSERT INTO `sys_role_menu` VALUES ('634', '1', '34');
+INSERT INTO `sys_role_menu` VALUES ('635', '1', '35');
+INSERT INTO `sys_role_menu` VALUES ('636', '1', '36');
+INSERT INTO `sys_role_menu` VALUES ('637', '1', '37');
+INSERT INTO `sys_role_menu` VALUES ('638', '1', '11');
+INSERT INTO `sys_role_menu` VALUES ('639', '1', '38');
+INSERT INTO `sys_role_menu` VALUES ('640', '1', '39');
+INSERT INTO `sys_role_menu` VALUES ('641', '1', '40');
+INSERT INTO `sys_role_menu` VALUES ('642', '1', '41');
+INSERT INTO `sys_role_menu` VALUES ('643', '22', '1');
+INSERT INTO `sys_role_menu` VALUES ('644', '22', '2');
+INSERT INTO `sys_role_menu` VALUES ('645', '22', '21');
+INSERT INTO `sys_role_menu` VALUES ('646', '22', '22');
+INSERT INTO `sys_role_menu` VALUES ('647', '22', '28');
+INSERT INTO `sys_role_menu` VALUES ('672', '19', '1');
+INSERT INTO `sys_role_menu` VALUES ('673', '19', '2');
+INSERT INTO `sys_role_menu` VALUES ('674', '19', '21');
+INSERT INTO `sys_role_menu` VALUES ('675', '19', '22');
+INSERT INTO `sys_role_menu` VALUES ('676', '19', '23');
+INSERT INTO `sys_role_menu` VALUES ('677', '19', '27');
+INSERT INTO `sys_role_menu` VALUES ('678', '19', '28');
+INSERT INTO `sys_role_menu` VALUES ('679', '19', '3');
+INSERT INTO `sys_role_menu` VALUES ('680', '19', '29');
+INSERT INTO `sys_role_menu` VALUES ('681', '19', '30');
+INSERT INTO `sys_role_menu` VALUES ('682', '19', '31');
+INSERT INTO `sys_role_menu` VALUES ('683', '19', '32');
+INSERT INTO `sys_role_menu` VALUES ('684', '19', '33');
+INSERT INTO `sys_role_menu` VALUES ('685', '19', '4');
+INSERT INTO `sys_role_menu` VALUES ('686', '19', '34');
+INSERT INTO `sys_role_menu` VALUES ('687', '19', '35');
+INSERT INTO `sys_role_menu` VALUES ('688', '19', '36');
+INSERT INTO `sys_role_menu` VALUES ('689', '19', '37');
+INSERT INTO `sys_role_menu` VALUES ('690', '19', '11');
+INSERT INTO `sys_role_menu` VALUES ('691', '19', '38');
+INSERT INTO `sys_role_menu` VALUES ('692', '19', '39');
+INSERT INTO `sys_role_menu` VALUES ('693', '19', '40');
+INSERT INTO `sys_role_menu` VALUES ('694', '19', '41');
 
 -- ----------------------------
 -- Table structure for sys_role_source
@@ -341,12 +406,13 @@ CREATE TABLE `sys_user` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `unique_user_num` (`user_num`),
   UNIQUE KEY `unique_login_name` (`login_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
 INSERT INTO `sys_user` VALUES ('14', '7861948169', '管理员', 'admin', '$2a$10$EDtWLCL7lvYsHa6HQtGHb.nkULljWm3NVwWf4rSG4jNcRew7GoCTS', '18149197030', 'hanl1946@163.com', '2020-03-30', '1', '7861948169', '7861948169', '2020-09-13 07:33:17', '2020-09-13 07:33:17');
+INSERT INTO `sys_user` VALUES ('26', '6633549909', '韩乐', 'hanle', '$2a$10$og0ccNyytuWmo.mXInjPpeRqknYebfN9mAOZIDLiuGw.mP5GtlUwm', '18149197030', null, '2020-09-15', '1', '7861948169', '7861948169', '2020-09-15 08:13:45', '2020-09-15 08:13:45');
 
 -- ----------------------------
 -- Table structure for sys_user_role
@@ -358,9 +424,10 @@ CREATE TABLE `sys_user_role` (
   `user_num` varchar(50) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `unique_role_user` (`role_id`,`user_num`)
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of sys_user_role
 -- ----------------------------
 INSERT INTO `sys_user_role` VALUES ('42', '1', '7861948169');
+INSERT INTO `sys_user_role` VALUES ('43', '19', '6633549909');
