@@ -52,6 +52,7 @@ public enum ErrorCode {
     MENU_REDIRECT_ADDR_EMPTY("A0406", "菜单重定向路径不能为空"),
     MENU_MARK_EMPTY("A0407", "权限标记不能为空"),
     MENU_USED("A0408", "菜单已分配给角色"),
+    MENU_HAS_CHILD("A0408", "菜单有子菜单"),
     // 资源相关
     SOURCE_ID_INVALID("A0500", "无效的资源Id"),
     SOURCE_USED("A0501", "资源已分配给角色"),

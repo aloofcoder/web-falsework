@@ -115,12 +115,19 @@ public class MenuServiceImpl extends ServiceImpl<MenuDao, MenuEntity> implements
 
     @Override
     public void deleteMenus(Integer[] ids) {
+        // 已分配给角色菜单不能删除
         List<RoleMenuEntity> roleMenuList = roleMenuService.findRoleMenuByMenuIds(Arrays.asList(ids));
         if (roleMenuList.size() > 0) {
             List<Integer> menuIds = roleMenuList.stream().map(RoleMenuEntity::getMenuId).collect(Collectors.toList());
             String menuNames = this.list(new QueryWrapper<MenuEntity>().in("id", menuIds))
                     .stream().map(MenuEntity::getMenuName).collect(Collectors.joining("，"));
             throw new AppException(ErrorCode.MENU_USED.getCode(), String.format("删除菜单【%1$s】失败，", menuNames) + ErrorCode.MENU_USED.getMsg());
+        }
+        // 有下一级菜单不能删除
+        List<MenuEntity> subMenuList = this.list(new QueryWrapper<MenuEntity>().in("parent_id", ids));
+        if (subMenuList.size() > 0) {
+            MenuEntity menuEntity = this.getOne(new QueryWrapper<MenuEntity>().eq("id", subMenuList.get(0).getParentId()));
+            throw new AppException(ErrorCode.MENU_USED.getCode(), String.format("删除菜单【%1$s】失败，", menuEntity.getMenuName()) + ErrorCode.MENU_HAS_CHILD.getMsg());
         }
         boolean removeMenuFlag = this.removeByIds(Arrays.asList(ids));
         if (!removeMenuFlag) {
