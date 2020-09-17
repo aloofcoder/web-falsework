@@ -6,18 +6,20 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import github.aloofcoder.falsework.admin.dao.DictDao;
-import github.aloofcoder.falsework.admin.pojo.dto.DictPageDTO;
 import github.aloofcoder.falsework.admin.pojo.dto.DictDTO;
+import github.aloofcoder.falsework.admin.pojo.dto.DictPageDTO;
 import github.aloofcoder.falsework.admin.pojo.entity.DictEntity;
+import github.aloofcoder.falsework.admin.pojo.vo.DictDetailVO;
+import github.aloofcoder.falsework.admin.pojo.vo.DictListVO;
 import github.aloofcoder.falsework.admin.service.IDictService;
 import github.aloofcoder.falsework.common.util.PageResult;
-import github.aloofcoder.falsework.admin.pojo.vo.DictDetailVO;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -73,5 +75,18 @@ public class DictServiceImpl extends ServiceImpl<DictDao, DictEntity> implements
     @Override
     public void deleteDicts(Integer[] ids) {
         this.removeByIds(Arrays.asList(ids));
+    }
+
+    @Override
+    public List<DictListVO> findDictList() {
+        QueryWrapper<DictEntity> queryWrapper = new QueryWrapper<>();
+        List<DictEntity> list = this.list(queryWrapper);
+        List<DictListVO> dictList = new ArrayList<>();
+        list.stream().forEach(item -> {
+            DictListVO vo = new DictListVO();
+            BeanUtils.copyProperties(item, vo);
+            dictList.add(vo);
+        });
+        return dictList;
     }
 }

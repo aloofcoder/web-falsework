@@ -56,6 +56,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 // 添加自定义Token 验证
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+        http.headers().frameOptions().disable();
     }
 
     @Bean

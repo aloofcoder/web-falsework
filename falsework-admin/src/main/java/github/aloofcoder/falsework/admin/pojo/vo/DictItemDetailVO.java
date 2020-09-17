@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
- * 
+ *
  *
  * @author hanle
  * @email hanl1946@163.com
@@ -14,6 +14,8 @@ import lombok.Data;
 @Schema(name = "DictItemDetailVO", description = "查询详情返回参数")
 public class DictItemDetailVO {
 
+    @Schema(name = "id", description = "", type = "Integer")
+    private Integer id;
 
     @Schema(name = "dictId", description = "", type = "Integer")
     private Integer dictId;

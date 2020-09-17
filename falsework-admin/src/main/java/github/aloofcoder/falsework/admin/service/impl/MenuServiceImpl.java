@@ -99,7 +99,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuDao, MenuEntity> implements
         }
         if (menuDTO.getMenuClass() != 3) {
             MenuEntity menuPathEntity = findByMenuPath(menuDTO.getMenuPath());
-            if (Objects.nonNull(menuPathEntity) && !id.equals(menuNameEntity.getId())) {
+            if (Objects.nonNull(menuPathEntity) && !id.equals(menuPathEntity.getId())) {
                 throw new AppException(ErrorCode.MENU_PATH_REPEAT);
             }
         }

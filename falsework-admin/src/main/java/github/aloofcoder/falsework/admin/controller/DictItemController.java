@@ -1,6 +1,13 @@
 package github.aloofcoder.falsework.admin.controller;
 
 
+import github.aloofcoder.falsework.admin.pojo.dto.DictItemDTO;
+import github.aloofcoder.falsework.admin.pojo.dto.DictItemPageDTO;
+import github.aloofcoder.falsework.admin.pojo.entity.DictItemEntity;
+import github.aloofcoder.falsework.admin.pojo.vo.DictItemDetailVO;
+import github.aloofcoder.falsework.admin.service.IDictItemService;
+import github.aloofcoder.falsework.common.util.PageResult;
+import github.aloofcoder.falsework.common.util.R;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -15,17 +22,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
-import github.aloofcoder.falsework.admin.pojo.entity.DictItemEntity;
-import github.aloofcoder.falsework.common.util.PageResult;
-import github.aloofcoder.falsework.common.util.R;
-import github.aloofcoder.falsework.admin.service.IDictItemService;
-import github.aloofcoder.falsework.admin.pojo.dto.DictItemPageDTO;
-import github.aloofcoder.falsework.admin.pojo.vo.DictItemDetailVO;
-import github.aloofcoder.falsework.admin.pojo.dto.DictItemDTO;
 
 /**
- *
- *
  * @author hanle
  * @email hanl1946@163.com
  * @date 2020-08-14 01:30:55
@@ -37,9 +35,9 @@ import github.aloofcoder.falsework.admin.pojo.dto.DictItemDTO;
 public class DictItemController {
 
     @Autowired
-    private IDictItemService  dictItemService;
+    private IDictItemService dictItemService;
 
-        @Operation(summary = "分页查询列表",
+    @Operation(summary = "分页查询列表",
             responses = {
                     @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = DictItemEntity.class)))
             })
@@ -83,7 +81,7 @@ public class DictItemController {
     @DeleteMapping
     @ResponseStatus(HttpStatus.OK)
     public R delete(@RequestBody Integer[] ids) {
-            dictItemService.deleteDictItems(ids);
+        dictItemService.deleteDictItems(ids);
         return R.ok();
     }
 }

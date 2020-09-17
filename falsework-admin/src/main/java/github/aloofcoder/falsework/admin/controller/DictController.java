@@ -1,6 +1,14 @@
 package github.aloofcoder.falsework.admin.controller;
 
 
+import github.aloofcoder.falsework.admin.pojo.dto.DictDTO;
+import github.aloofcoder.falsework.admin.pojo.dto.DictPageDTO;
+import github.aloofcoder.falsework.admin.pojo.entity.DictEntity;
+import github.aloofcoder.falsework.admin.pojo.vo.DictDetailVO;
+import github.aloofcoder.falsework.admin.pojo.vo.DictListVO;
+import github.aloofcoder.falsework.admin.service.IDictService;
+import github.aloofcoder.falsework.common.util.PageResult;
+import github.aloofcoder.falsework.common.util.R;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -15,13 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
-import github.aloofcoder.falsework.admin.pojo.entity.DictEntity;
-import github.aloofcoder.falsework.common.util.PageResult;
-import github.aloofcoder.falsework.common.util.R;
-import github.aloofcoder.falsework.admin.service.IDictService;
-import github.aloofcoder.falsework.admin.pojo.dto.DictPageDTO;
-import github.aloofcoder.falsework.admin.pojo.vo.DictDetailVO;
-import github.aloofcoder.falsework.admin.pojo.dto.DictDTO;
+import java.util.List;
 
 /**
  * 数据字典
@@ -37,7 +39,7 @@ import github.aloofcoder.falsework.admin.pojo.dto.DictDTO;
 public class DictController {
 
     @Autowired
-    private IDictService  dictService;
+    private IDictService dictService;
 
     @Operation(summary = "分页查询数据字典列表",
             responses = {
@@ -83,7 +85,15 @@ public class DictController {
     @DeleteMapping
     @ResponseStatus(HttpStatus.OK)
     public R delete(@RequestBody Integer[] ids) {
-            dictService.deleteDicts(ids);
+        dictService.deleteDicts(ids);
         return R.ok();
+    }
+
+    @Operation(summary = "查询字典列表")
+    @GetMapping("/list")
+    @ResponseStatus(HttpStatus.OK)
+    public R findDictList() {
+        List<DictListVO> list = dictService.findDictList();
+        return R.ok().put("data", list);
     }
 }
