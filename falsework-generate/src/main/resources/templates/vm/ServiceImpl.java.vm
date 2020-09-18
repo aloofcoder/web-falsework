@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import ${package}.${moduleName}.config.BaseContextUtil;
 import ${package}.${moduleName}.dao.${className}Dao;
 import ${package}.${moduleName}.pojo.dto.${className}PageDTO;
 import ${package}.${moduleName}.pojo.dto.${className}DTO;
@@ -55,18 +56,23 @@ public class ${className}ServiceImpl extends ServiceImpl<${className}Dao, ${clas
 
     @Override
     public void create${className}(${className}DTO ${classname}DTO) {
+        String loginNum = BaseContextUtil.getLoginNum();
         ${className}Entity entity = new ${className}Entity();
         BeanUtils.copyProperties(${classname}DTO, entity);
+        entity.setCreateBy(loginNum);
+        entity.setEditBy(loginNum);
         this.save(entity);
     }
 
     @Override
     public void update${className}(${pk.attrType} ${pk.attrname}, ${className}DTO ${classname}DTO) {
+        String loginNum = BaseContextUtil.getLoginNum();
         ${className}Entity entity = this.getOne(new QueryWrapper<${className}Entity>().eq("${pk.columnName}", ${pk.attrname}));
         if (Objects.isNull(entity)) {
             throw new IllegalArgumentException();
         }
         BeanUtils.copyProperties(${classname}DTO, entity);
+        entity.setEditBy(loginNum);
         update(entity, new UpdateWrapper<${className}Entity>().eq("${pk.columnName}", ${pk.attrname}));
     }
 

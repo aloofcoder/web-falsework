@@ -12,28 +12,28 @@
     <div class="layui-header">
         <div class="layui-logo">通用代码生成</div>
         <!-- 头部区域（可配合layui已有的水平导航） -->
-<!--        <ul class="layui-nav layui-layout-right">-->
-<!--            <li class="layui-nav-item">-->
-<!--                <a href="javascript:;">-->
-<!--                    <img src="http://t.cn/RCzsdCq" class="layui-nav-img">-->
-<!--                    贤心-->
-<!--                </a>-->
-<!--                <dl class="layui-nav-child">-->
-<!--                    <dd><a href="">基本资料</a></dd>-->
-<!--                    <dd><a href="">安全设置</a></dd>-->
-<!--                </dl>-->
-<!--            </li>-->
-<!--            <li class="layui-nav-item"><a href="">退了</a></li>-->
-<!--        </ul>-->
+        <!--        <ul class="layui-nav layui-layout-right">-->
+        <!--            <li class="layui-nav-item">-->
+        <!--                <a href="javascript:;">-->
+        <!--                    <img src="http://t.cn/RCzsdCq" class="layui-nav-img">-->
+        <!--                    贤心-->
+        <!--                </a>-->
+        <!--                <dl class="layui-nav-child">-->
+        <!--                    <dd><a href="">基本资料</a></dd>-->
+        <!--                    <dd><a href="">安全设置</a></dd>-->
+        <!--                </dl>-->
+        <!--            </li>-->
+        <!--            <li class="layui-nav-item"><a href="">退了</a></li>-->
+        <!--        </ul>-->
     </div>
-    <div class="layui-fluid">
+    <div class="layui-fluid" style="padding: 0 !important;">
         <div class="layui-row layui-col-space15">
             <div class="layui-col-md12">
                 <div class="layui-card layui-form">
                     <div class="layui-card-header">查询条件</div>
                     <div class="layui-card-body layui-row layui-col-space15">
                         <div class="layui-col-md2">
-                            <input type="text" class="layui-input" id="tableName" placeholder="表名" />
+                            <input type="text" class="layui-input" id="tableName" placeholder="表名"/>
                         </div>
                         <div class="layui-col-md2">
                             <button class="layui-btn" data-type="reload">查询</button>
@@ -46,7 +46,8 @@
                 <div class="layui-card layui-form">
                     <div class="layui-card-header">查询结果</div>
                     <div class="layui-card-body">
-                        <table class="layui-hide" id="layListId" lay-filter="layList" lay-data="{skin:'line', even:true, size:'sm'}"></table>
+                        <table class="layui-hide" id="layListId" lay-filter="layList"
+                               lay-data="{skin:'line', even:true, size:'sm'}"></table>
                     </div>
                 </div>
             </div>
@@ -54,7 +55,7 @@
     </div>
 </div>
 <script>
-    layui.use(['table', 'jquery'], function() {
+    layui.use(['table', 'jquery'], function () {
         var $ = layui.jquery;
         var table = layui.table;
         table.render({
@@ -86,7 +87,7 @@
                 }]
             ],
             page: true
-            ,parseData: function(res){ //res 即为原始返回的数据
+            , parseData: function (res) { //res 即为原始返回的数据
                 return {
                     "code": res.code, //解析接口状态
                     "msg": 'OK', //解析提示文本
@@ -98,7 +99,7 @@
 
         var $ = layui.$,
             active = {
-                reload: function() {
+                reload: function () {
                     var tableName = $("#tableName").val();
 
                     //执行重载
@@ -108,7 +109,7 @@
                         }
                     });
                 },
-                build: function() { //获取选中数据
+                build: function () { //获取选中数据
                     var checkStatus = table.checkStatus('layTableId'),
                         data = checkStatus.data;
                     if (data.length <= 0) {
@@ -117,10 +118,10 @@
                     }
                     console.log(data, 'data')
                     var tableNames = data.map(item => item.tableName).join(',');
-                    location.href = "sys/generate/build?tables="+ tableNames;
+                    location.href = "sys/generate/build?tables=" + tableNames;
                 }
             };
-        $('.layui-btn').on('click', function() {
+        $('.layui-btn').on('click', function () {
             var type = $(this).data('type');
             active[type] && active[type].call(this);
         });

@@ -12,6 +12,8 @@ import github.aloofcoder.falsework.admin.pojo.entity.DictEntity;
 import github.aloofcoder.falsework.admin.pojo.vo.DictDetailVO;
 import github.aloofcoder.falsework.admin.pojo.vo.DictListVO;
 import github.aloofcoder.falsework.admin.service.IDictService;
+import github.aloofcoder.falsework.common.util.AppException;
+import github.aloofcoder.falsework.common.util.ErrorCode;
 import github.aloofcoder.falsework.common.util.PageResult;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +59,14 @@ public class DictServiceImpl extends ServiceImpl<DictDao, DictEntity> implements
 
     @Override
     public void createDict(DictDTO dictDTO) {
+        DictEntity dictNameEntity = findByDictName(dictDTO.getDictName());
+        if (Objects.nonNull(dictNameEntity)) {
+            throw new AppException(ErrorCode.DICT_NAME_REPEAT);
+        }
+        DictEntity dictMarkEntity = findByDictMark(dictDTO.getDictMark());
+        if (Objects.nonNull(dictMarkEntity)) {
+            throw new AppException(ErrorCode.DICT_MARK_REPEAT);
+        }
         DictEntity entity = new DictEntity();
         BeanUtils.copyProperties(dictDTO, entity);
         this.save(entity);
@@ -64,6 +74,14 @@ public class DictServiceImpl extends ServiceImpl<DictDao, DictEntity> implements
 
     @Override
     public void updateDict(Integer id, DictDTO dictDTO) {
+        DictEntity dictNameEntity = findByDictName(dictDTO.getDictName());
+        if (Objects.nonNull(dictNameEntity) && !id.equals(dictNameEntity.getId())) {
+            throw new AppException(ErrorCode.DICT_NAME_REPEAT);
+        }
+        DictEntity dictMarkEntity = findByDictMark(dictDTO.getDictMark());
+        if (Objects.nonNull(dictMarkEntity) && !id.equals(dictMarkEntity.getId())) {
+            throw new AppException(ErrorCode.DICT_MARK_REPEAT);
+        }
         DictEntity entity = this.getOne(new QueryWrapper<DictEntity>().eq("id", id));
         if (Objects.isNull(entity)) {
             throw new IllegalArgumentException();
@@ -88,5 +106,15 @@ public class DictServiceImpl extends ServiceImpl<DictDao, DictEntity> implements
             dictList.add(vo);
         });
         return dictList;
+    }
+
+    private DictEntity findByDictMark(String dictMark) {
+        DictEntity dictEntity = this.getOne(new QueryWrapper<DictEntity>().eq("dict_mark", dictMark));
+        return dictEntity;
+    }
+
+    private DictEntity findByDictName(String dictName) {
+        DictEntity dictEntity = this.getOne(new QueryWrapper<DictEntity>().eq("dict_name", dictName));
+        return dictEntity;
     }
 }

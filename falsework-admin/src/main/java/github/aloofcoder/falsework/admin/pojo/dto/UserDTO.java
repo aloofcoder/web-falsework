@@ -19,12 +19,12 @@ import java.util.Date;
 public class UserDTO {
 
     @NotBlank(message = "用户姓名不能为空")
-    @Size(min = 2, max = 50, message = "用户名长度必须在2-50个字符")
+    @Size(min = 2, max = 20, message = "用户名长度必须在2-50个字符")
     @Schema(name = "userName", description = "姓名", type = "String")
     private String userName;
 
     @NotBlank(message = "用户登录名不能为空")
-    @Size(min = 2, max = 50, message = "登录名长度必须在2-50个字符")
+    @Size(min = 4, max = 20, message = "登录名长度必须在2-50个字符")
     @Schema(name = "loginName", description = "登录名", type = "String")
     private String loginName;
 

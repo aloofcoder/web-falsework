@@ -25,10 +25,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -161,8 +158,20 @@ public class MenuServiceImpl extends ServiceImpl<MenuDao, MenuEntity> implements
                 }
             });
         });
+        toSortMenu(tree);
         return tree;
     }
+
+    private void toSortMenu(List<MenuEntity> tree) {
+        tree.sort(Comparator.comparingInt(MenuEntity::getMenuSort));
+        tree.forEach(item -> {
+                    if (Objects.nonNull(item.getChildren()) && item.getChildren().size() > 0) {
+                        toSortMenu(item.getChildren());
+                    }
+                }
+        );
+    }
+
 
     @Override
     public List<MenuEntity> findAuth() {
@@ -206,8 +215,18 @@ public class MenuServiceImpl extends ServiceImpl<MenuDao, MenuEntity> implements
                 }
             });
         });
-
+        toSort(tree);
         return tree;
+    }
+
+    private void toSort(List<MenuListVO> tree) {
+        tree.sort(Comparator.comparingInt(MenuListVO::getMenuSort));
+        tree.forEach(item -> {
+                    if (Objects.nonNull(item.getChildren()) && item.getChildren().size() > 0) {
+                        toSort(item.getChildren());
+                    }
+                }
+        );
     }
 
     @Override

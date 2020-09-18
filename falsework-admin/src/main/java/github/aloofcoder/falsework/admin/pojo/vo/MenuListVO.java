@@ -22,6 +22,9 @@ public class MenuListVO {
     @Schema(name = "menuName", description = "菜单名", type = "String")
     private String menuName;
 
+    @Schema(name = "menuSort", description = "菜单排序号", type = "Integer")
+    private Integer menuSort;
+
     @Schema(name = "children", description = "子菜单", type = "List")
     private List<MenuListVO> children;
 }
