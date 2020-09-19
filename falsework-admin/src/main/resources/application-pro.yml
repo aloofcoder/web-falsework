@@ -35,3 +35,11 @@ jwt:
   secret: WebFlaseWork
   # 过期时间   单位秒 1小时 3600
   expiration: 3600
+
+# 阿里云oss 配置（改为自己的）
+aliyun:
+  oss:
+    access-id: 123456
+    access-key: 123456
+    endpoint: oss-cn-beijing.aliyuncs.com
+    bucket: 123456

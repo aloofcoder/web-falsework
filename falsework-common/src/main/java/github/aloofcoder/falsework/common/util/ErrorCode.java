@@ -57,8 +57,12 @@ public enum ErrorCode {
     SOURCE_ID_INVALID("A0500", "无效的资源Id"),
     SOURCE_USED("A0501", "资源已分配给角色"),
     SOURCE_NAME_REPEAT("A0502", "系统已存在该资源名"),
-    SOURCE_URL_REPEAT("A0503", "系统已存在该资源路径");
-
+    SOURCE_URL_REPEAT("A0503", "系统已存在该资源路径"),
+    // 数据字典
+    DICT_NAME_REPEAT("A0601", "系统已存在该字典名称"),
+    DICT_MARK_REPEAT("A0602", "系统已存在该字典标记"),
+    DICT_ITEM_LABEL_REPEAT("A0621", "当前字典下已存在该字典标签"),
+    DICT_ITEM_VALUE_REPEAT("A0622", "当前字典下已存在该字典值"),;
 
     private String code;
 
