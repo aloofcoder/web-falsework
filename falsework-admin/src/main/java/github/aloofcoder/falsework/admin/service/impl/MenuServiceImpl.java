@@ -107,6 +107,9 @@ public class MenuServiceImpl extends ServiceImpl<MenuDao, MenuEntity> implements
         }
         BeanUtils.copyProperties(menuDTO, entity);
         entity.setEditBy(loginNum);
+        if ("/sys".equals(entity.getMenuPath())) {
+            entity.setIsHidden(0);
+        }
         update(entity, new UpdateWrapper<MenuEntity>().eq("id", id));
     }
 
