@@ -165,6 +165,9 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
         if (Objects.isNull(entity)) {
             throw new AppException(ErrorCode.USER_NUM_ERR);
         }
+        if ("admin".equals(entity.getLoginName())) {
+            throw new AppException(ErrorCode.USER_EDIT_ADMIN_ERR);
+        }
         String loginPwd = entity.getLoginPwd();
         BeanUtils.copyProperties(userDTO, entity);
         entity.setEditBy(loginNum);
