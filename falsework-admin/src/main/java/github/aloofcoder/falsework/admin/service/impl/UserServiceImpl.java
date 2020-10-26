@@ -1,5 +1,6 @@
 package github.aloofcoder.falsework.admin.service.impl;
 
+import com.aliyun.oss.ServiceException;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -164,6 +165,9 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
         UserEntity entity = this.getOne(new QueryWrapper<UserEntity>().eq("user_num", userNum));
         if (Objects.isNull(entity)) {
             throw new AppException(ErrorCode.USER_NUM_ERR);
+        }
+        if ("admin".equals(entity.getLoginName())) {
+            throw new AppException(ErrorCode.USER_EDIT_ADMIN_ERR);
         }
         String loginPwd = entity.getLoginPwd();
         BeanUtils.copyProperties(userDTO, entity);

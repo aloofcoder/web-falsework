@@ -50,7 +50,9 @@ public class UserController {
     @Autowired
     private IMenuService menuService;
 
-    @Operation(summary = "查询当前登录人信息")
+    @Operation(summary = "查询当前登录人信息", responses = {
+            @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = R.class)))
+    })
     @GetMapping("/info")
     public R info() {
         String loginNum = BaseContextUtil.getLoginNum();

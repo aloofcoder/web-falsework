@@ -109,7 +109,10 @@ public class RoleServiceImpl extends ServiceImpl<RoleDao, RoleEntity> implements
         String loginNum = BaseContextUtil.getLoginNum();
         RoleEntity entity = this.getOne(new QueryWrapper<RoleEntity>().eq("role_id", roleId));
         if (Objects.isNull(entity)) {
-            throw new IllegalArgumentException();
+            throw new AppException(ErrorCode.ROLE_ID_INVALID);
+        }
+        if ("admin".equals(entity.getRoleMark())) {
+            throw new AppException(ErrorCode.ROLE_EDIT_ADMIN_ERR);
         }
         BeanUtils.copyProperties(roleDTO, entity);
         entity.setEditBy(loginNum);
@@ -157,6 +160,9 @@ public class RoleServiceImpl extends ServiceImpl<RoleDao, RoleEntity> implements
         RoleEntity entity = this.getOne(new QueryWrapper<RoleEntity>().eq("role_id", roleId));
         if (Objects.isNull(entity)) {
             throw new AppException(ErrorCode.ROLE_ID_INVALID);
+        }
+        if ("admin".equals(entity.getRoleMark())) {
+            throw new AppException(ErrorCode.ROLE_EDIT_ADMIN_ERR);
         }
         // 删除角色授权的菜单
         boolean removeRoleMenuFlag = roleMenuService.removeByRoleId(roleId);

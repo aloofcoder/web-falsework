@@ -19,6 +19,7 @@ public enum ErrorCode {
     USER_NAME_SENSITIVE("A0104", "用户名包含敏感词"),
     USER_NUM_ERR("A0105", "无效的用户编号"),
     USER_DEL_ADMIN_ERR("A0106", "管理员账号不能被删除"),
+    USER_EDIT_ADMIN_ERR("A0106", "管理员账号暂不支持修改"),
     USER_ROLE_INVALID("A0107", "当前账号未分配角色，请联系管理员"),
     USER_INVALID_ERR("A0108", "用户账户不存在"),
     USER_PWD_ERR("A0109", "用户名或密码错误"),
@@ -37,6 +38,7 @@ public enum ErrorCode {
     ROLE_MARK_REPEAT("A0201", "系统已存在该角色标记"),
     ROLE_ID_INVALID("A0202", "无效的角色"),
     ROLE_USED("A0203", "角色已分配给用户"),
+    ROLE_EDIT_ADMIN_ERR("A0204", "管理员角色暂不支持修改"),
     // 组织相关
     ORG_ID_INVALID("A0300", "无效的组织"),
     ORG_NAME_REPEAT("A0301", "系统已存在该组织名"),

@@ -1,5 +1,7 @@
 package github.aloofcoder.falsework.common.util;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -7,6 +9,7 @@ import java.util.Map;
  * @author hanle
  * @date 2020-08-10
  */
+@Schema(name = "R", description = "封装统一返回对象")
 public class R extends HashMap<String, Object> {
 
     private static final long serialVersionUID = 1L;
