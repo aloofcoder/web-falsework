@@ -105,9 +105,6 @@ public class MenuServiceImpl extends ServiceImpl<MenuDao, MenuEntity> implements
         if (Objects.isNull(entity)) {
             throw new AppException(ErrorCode.MENU_ID_INVALID);
         }
-        if ("/sys".equals(entity.getMenuPath())) {
-            throw new AppException(ErrorCode.MENU_EDIT_SYS_ERROR);
-        }
         BeanUtils.copyProperties(menuDTO, entity);
         entity.setEditBy(loginNum);
         update(entity, new UpdateWrapper<MenuEntity>().eq("id", id));
